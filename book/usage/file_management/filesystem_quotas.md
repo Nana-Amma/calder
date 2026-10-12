@@ -1,6 +1,5 @@
-# Filesystem Quotas
-
 (page:filesystem-quotas)=
+# Filesystem Quotas
 
 We use quotas on the filesystems to manage the usage of the space fairly among the users and to try to avoid or reduce situations where a filesystem fails. If you believe you have a genuine need for additional storage, a request can be made — but please ensure you have read the full documentation first and confirmed that you are following all recommended practices for managing your current quota.
 
@@ -41,13 +40,13 @@ It's important to regularly check your storage usage to avoid interruptions caus
 
 :::{tab-item} Calder
 
-| Filesystem                      | Command to Check Quota                      |
-| ------------------------------- | -------------------------------------------- |
-| Home Folder (`$HOME`)           | `quota -s`                                   |
-| Scratch on Lustre (`$SCRATCH`)  | `lfs quota -h -p <project-id> /scratch-calder` |
-| Flash on Lustre (`$TMP_SHARED`) | `lfs quota -h -p <project-id> /flash-calder`   |
+| Filesystem                      | Command to Check Quota                         |
+| ------------------------------- | ---------------------------------------------- |
+| Home Folder (`$HOME`)           | `quota -s`                                     |
+| Scratch on Lustre               | `lfs quota -h -p <project-id> /scratch-calder` |
+| Flash on Lustre                 | `lfs quota -h -p <project-id> /flash-calder`   |
 
-Your `<project-id>` is the Slurm project associated with your account; contact Research IT if you're unsure of yours.
+Your `<project-id>` is your UID, you can find out your UID by running the `id` command.
 
 :::
 ::::
