@@ -47,10 +47,10 @@ The output should look similar to:
 ```text
 ------------- /uol/apps/calder/modules ------------
 
-calder/cpu calder/hopper (D)
+calder/cpu calder/hopper
 ```
 
-The `(D)` indicates the default environment. The top-level environments include:
+The top-level environments include:
 
 - `calder/cpu` - software environment for CPU workloads.
 - `calder/hopper` - software environment for workloads using Calder's GPU nodes.
