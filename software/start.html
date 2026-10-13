@@ -184,7 +184,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../system/node_types.html">Compute node types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/storage_filesystem.html">Storage and Filesystem</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../system/job_scheduler.html">Job Scheduler</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../system/module_system.html">Modules and Applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/module_system.html">Module System</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../usage/start.html">Using the HPC</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -412,7 +412,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -428,6 +430,18 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-and-loading-software">Finding and loading software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-software-on-calder">Using software on Calder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-categories">Software categories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-on-aire">Software on Aire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-or-requesting-software">Installing or requesting software</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -439,22 +453,26 @@
                   
   <section id="software-on-hpc">
 <h1>Software on HPC<a class="headerlink" href="#software-on-hpc" title="Link to this heading">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The module system on <strong>Calder</strong> uses a hierarchical structure, which is different from the module system currently used on Aire. We are gradually adding documentation for the software available on Calder to this site.</p>
-<p>For instructions on using software modules on Aire, please refer to the <a class="reference external" href="https://arcdocs.leeds.ac.uk/aire/software/start.html">Aire User Documentation</a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We are also preparing the upgrade of Aire to Aire 2.0, which will introduce a hierarchical module system. Once the Aire 2.0 upgrade is complete, we will gradually migrate the software documentation for both Aire 2.0 and Calder to this site.</p>
-<p>We appreciate your patience while this work is being completed. If you have any queries, please contact us.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Users may, and are encouraged to, install their own software in their home (<code class="docutils literal notranslate"><span class="pre">~</span></code>) directories. If you think software should be installed as a centrally managed module, see <a class="reference internal" href="../getting_started/request_software.html#page-request-software"><span class="std std-ref">Requesting new software</span></a>.</p>
-</div>
-<p>We provide centrally managed software on HPC through the module system. The software available may differ between the two systems.</p>
-<p>Software is categorised into five groups:</p>
+<p>We provide centrally managed software on Aire and Calder through the environment module system. Modules let you select the software and versions you need for your work. Available software and module commands may differ between the two systems, so check the relevant documentation before running your workloads.</p>
+<section id="finding-and-loading-software">
+<h2>Finding and loading software<a class="headerlink" href="#finding-and-loading-software" title="Link to this heading">#</a></h2>
+<p>To get started, connect to the system you want to use and run the following commands in your terminal.</p>
+<ol class="arabic simple">
+<li><p><strong>Find available software:</strong> Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">avail</span></code> to list modules available in your current environment.</p></li>
+<li><p><strong>Load a module:</strong> Run <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">load</span> <span class="pre">&lt;module-name&gt;</span></code> to make the software available in your session. Replace <code class="docutils literal notranslate"><span class="pre">&lt;module-name&gt;</span></code> with the name of the module you want to use.</p></li>
+<li><p><strong>Check the software instructions:</strong> Refer to the relevant software page for any additional setup or usage instructions.</p></li>
+</ol>
+<p>On Calder, the module system is hierarchical. You may need to load a CPU or GPU environment before the software you need becomes visible. To search the full module hierarchy, use <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">spider</span> <span class="pre">&lt;module-name&gt;</span></code>. For more information, see <a class="reference internal" href="../system/module_system.html"><span class="std std-doc">Modules and Applications</span></a>.</p>
+<p>The module system differs between Aire and Calder, so module names and loading instructions may not be the same on both systems.</p>
+</section>
+<section id="using-software-on-calder">
+<h2>Using software on Calder<a class="headerlink" href="#using-software-on-calder" title="Link to this heading">#</a></h2>
+<p>Calder uses a <strong>hierarchical module system</strong>, and we are adding software modules and their documentation to this site gradually.</p>
+<p>If you cannot find software or a module on Calder that is available on Aire, <strong>please continue using Aire for that workload for now</strong>. We will release more Calder modules and documentation over time. If a particular package is important to your work, you can also contact us or <a class="reference internal" href="../getting_started/request_software.html#page-request-software"><span class="std std-ref">request new software</span></a>.</p>
+</section>
+<section id="software-categories">
+<h2>Software categories<a class="headerlink" href="#software-categories" title="Link to this heading">#</a></h2>
+<p>Browse the documentation by category:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="applications/start.html"><span class="doc std std-doc">Applications</span></a> - Software applications for various tasks</p></li>
 </ul>
@@ -466,7 +484,18 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="tools/start.html"><span class="doc std std-doc">Tools</span></a> - Useful system utilities and tools</p></li>
 </ul>
-<p>For guidance on finding, loading, and using software modules, see <a class="reference internal" href="../system/module_system.html"><span class="std std-doc">Modules and Applications</span></a>.</p>
+<p>The software available in each category may differ between Aire and Calder. Check the individual software pages for system-specific instructions.</p>
+</section>
+<section id="software-on-aire">
+<h2>Software on Aire<a class="headerlink" href="#software-on-aire" title="Link to this heading">#</a></h2>
+<p>For instructions on using software modules on the current Aire system, see the <a class="reference external" href="https://arcdocs.leeds.ac.uk/aire/software/start.html">Aire User Documentation</a>.</p>
+<p>We are also preparing the upgrade to <strong>Aire 2.0</strong>, which will introduce a hierarchical module system. After the upgrade, we will gradually bring the software documentation for Aire 2.0 and Calder together on this site.</p>
+</section>
+<section id="installing-or-requesting-software">
+<h2>Installing or requesting software<a class="headerlink" href="#installing-or-requesting-software" title="Link to this heading">#</a></h2>
+<p>You may install software yourself in your home directory (<code class="docutils literal notranslate"><span class="pre">~</span></code>) where appropriate. If you think software would be useful as a centrally managed module, see <a class="reference internal" href="../getting_started/request_software.html#page-request-software"><span class="std std-ref">Requesting new software</span></a>.</p>
+<p>If you have questions about software availability or using modules, please contact the Research Computing team.</p>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -525,6 +554,26 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-and-loading-software">Finding and loading software</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-software-on-calder">Using software on Calder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-categories">Software categories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#software-on-aire">Software on Aire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-or-requesting-software">Installing or requesting software</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

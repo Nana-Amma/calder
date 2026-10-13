@@ -1,142 +1,63 @@
 # Data Transfer
 
-This page provides an overview of data transfer on Aire and Calder along with support for our preferred data transfer methods.
+This page describes recommended ways to transfer data to and from Aire and Calder, including using command-line tools and Globus.
 
-## Overview
+## General guidance
 
-+ The login nodes on Aire and Calder are powerful and have fast connections to the campus network and onward to the JANET network and other universities.
-+ The standard Linux tools are available on the login nodes to transfer data to and from the HPC system, Useful commands are `scp` and `rsync`.
-+ You can transfer single files or sets of files. While directories can be copied, it can be better to compress files into a single file and transfer that file. This can be achieved using the `zip` command.
-+ The login nodes also accept inbound connections for these utilities from other machines on campus (wired connection), such as your desktop or workstation or departmental servers and storage.
+- Aire and Calder login nodes provide connections to the campus network, JANET and other universities. Standard tools such as `scp` and `rsync` are available for transferring files.
+- You can transfer individual files or directories. For a large number of small files, it may be more efficient to combine them into an archive before transferring them.
+- You can transfer data between HPC and other machines on the University network, including desktop computers, workstations, departmental servers and storage.
 
 :::{important}
- You should make sure any input data required is on your scratch directory before the job starts. If you need to transfer data elsewhere after a job completes, the job should save the data in the scratch directory, and then you can transfer it as a separate task after the job finishes.
+Before a job starts, make sure its input data is available in the appropriate HPC storage area. If you need to transfer results elsewhere after a job finishes, write them to scratch during the job and transfer them afterwards.
 :::
 
 :::{warning}
- You should not transfer data in and out of HPC from running jobs. This ties up the compute nodes waiting for the network and is inefficient.
+Do not transfer data to or from HPC directly from a running compute job unless your workflow specifically requires it. Transfers can keep compute resources occupied while waiting for network operations. Where possible, stage input data before the job starts and transfer output data after it finishes.
 :::
 
-## SCP
+## Using SCP and rsync
 
-Due to the authentication methods required to access the HPC services, some standard SCP clients can be cumbersome as they require repeated authentication during transfer. For a smoother experience, we recommend using MobaXterm on Windows, or CyberDuck or ForkLift on Mac, which handle authentication more efficiently and provide user-friendly interfaces for file transfers. For Linux, using the `scp` command via the terminal is the most straightforward, please refer to the <a href="https://leeds.service-now.com/it?id=kb_article_view&table=kb_knowledge&sys_kb_id=dfcc76a9fb3b16909eaffefbaeefdc09&searchTerm=KB0018323" target="_blank">KB0018323 - How to transfer data to and from HPC</a>.
+The command-line tools `scp` and `rsync` are available on the login nodes. On Linux, you can use them from a terminal. On Windows, MobaXterm may provide a more convenient interface; on macOS, you could use Cyberduck or ForkLift.
 
-Note that the above articles require you to log in with your University account to view.
+Some graphical SCP clients may prompt for authentication repeatedly. If you need help transferring files with these tools, see the University IT article [KB0018323: How to transfer data to and from HPC](https://leeds.service-now.com/it?id=kb_article_view&table=kb_knowledge&sys_kb_id=dfcc76a9fb3b16909eaffefbaeefdc09&searchTerm=KB0018323). You may need to sign in with your University account to view it.
 
-## Globus
+## Using Globus
 
-:::{note}
- Globus is now our preference for transferring files between OneDrive and HPC, whereas, in the past, users have been advised to use `rclone`. We'd also encourage you to use Isilon `/resstore` more than OneDrive or N:\ drive for research data files.
- Visit the Library's <a href="https://library.leeds.ac.uk/info/14062/research-data-management/65/storing-and-handling-data/3">Storing and handling data</a> section for more information about different storage services.
- Refer to <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sys_kb_id=a15bba21fb943a909eaffefbaeefdcb5&table=kb_knowledge&searchTerm=KB0017543">KB0017543</a> for help with data transfer between University storage systems and Globus connection points.
+Globus is the recommended option for transferring large datasets and files reliably between supported storage locations. It provides a web interface for selecting source and destination collections and managing transfers.
+
+For information about University storage options, see the Library's [Storing and handling data](https://library.leeds.ac.uk/info/14062/research-data-management/65/storing-and-handling-data/3) guidance. For help transferring data between Globus collections and University storage services, see [KB0017543: Data transfer between Globus Collections, OneDrive, Microsoft Teams and SharePoint sites](https://it.leeds.ac.uk/it?id=kb_article_view&sys_kb_id=a15bba21fb943a909eaffefbaeefdcb5&table=kb_knowledge&searchTerm=KB0017543).
+
+### Available HPC collection
+
+The centrally managed Globus collection **Aire and Calder - University of Leeds** is available for transferring files in users' home directories. Home directories are shared between Aire and Calder, so the same home-directory files are accessible from either system through this collection. To use it:
+
+1. Sign in to the [Globus web app](https://app.globus.org/).
+2. In the **Collections** panel on the left, search for **Aire and Calder - University of Leeds**. Turn off all filters if the collection does not appear in the search results.
+3. Select the **Aire and Calder - University of Leeds** collection, then click **Open in File Manager**.
+4. In File Manager, double click the `users` directory, then double click the directory matching your HPC username. This will take you to your home directory, which is shared between Aire and Calder.
+5. Select the files or directories you want to transfer, then choose the destination collection and navigate to the appropriate destination directory.
+6. Start the transfer and monitor its progress in Globus.
+
+:::{admonition} Bookmarking the collection
+:class: note
+
+To make future transfers easier, you can bookmark the **Aire and Calder - University of Leeds** collection. Once bookmarked, you can access it directly from File Manager without having to search for it again.
 :::
 
-Globus enables you to quickly, securely and reliably move your data (in particular, large files) to and from locations you have access to, using GridFTP protocol optimised for high-bandwidth wide-area networks. We are currently working to add Globus centrally to HPC.
+### Scratch storage
 
-Globus Personal provides an effective interim solution for file transfers to/from HPC to locations such as University-managed Research IT Storage (`resstore`: <a href="https://it.leeds.ac.uk/it?id=kb_article&sysparm_article=KB0018026" target="_blank">Research Data Storage Service Provision</a>)  while we work towards enabling the central Globus client infrastructure. The personal client allows users to make both their HPC home and scratch directories visible to Globus, enabling efficient data transfers between HPC and Globus-enabled endpoints such as `resstore`.
+Centrally managed Globus collections for the Scratch filesystems on Aire and Calder are planned, but are not yet available. Until they are enabled, the collection above provides access to home directories only; it does not provide access to Scratch.
 
-:::{warning}
-You cannot transfer files between two instances of Globus personal without a subscription; you must connect between an instance of Globus personal and a Globus client endpoint.
+If you need to transfer files directly to or from Scratch in the meantime, the existing Globus Connect Personal setup described in the Aire documentation is a temporary workaround. These setup instructions are not repeated here because the centrally managed collections are the intended approach once Scratch access is available.
 
-This means that at the moment (until we have the central client enabled on HPC):
+### Other Globus resources
 
-+ You can transfer files between Globus Personal on HPC and Globus endpoints such as `resstore`;
-+ You can transfer files between Globus Personal on HPC and Globus endpoints such as OneDrive;
-+ You *cannot* transfer files between Globus Personal on HPC and Globus Personal on your PC or laptop (without a subscription);
-+ You can transfer files between Globus Personal on HPC and Globus endpoints such as OneDrive/`resstore`, and then between OneDrive/`resstore`; and Globus Personal on your PC or laptop.
-:::
+- [KB0017543: Data transfer between Globus Collections, OneDrive, Microsoft Teams and SharePoint sites](https://it.leeds.ac.uk/it?id=kb_article_view&sys_kb_id=a15bba21fb943a909eaffefbaeefdcb5&table=kb_knowledge&searchTerm=KB0017543) explains how to transfer data between Globus and University storage services.
+- [KB0015444: Globus File Transfer Guide – How to Log In, Transfer Files Securely & Request Storage Access](https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0015444) introduces Globus and links to the Globus Data Transfer Service request form for enabling Globus on supported University storage.
+- [How to log into Globus](https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0015522) explains how to authorise Globus to use your University of Leeds account.
+- [Research Data Storage Service Provision](https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0018026) describes the University's research data storage service, including Globus-enabled storage.
 
-:::{note}
- If you want to connect Globus to your OneDrive account, you will need to request approval. Please refer to the <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0018501" target="_blank">Requesting access to applications to connect to your data (M365 Enterprise Apps)</a> Knowledge Base article.
-:::
+If you want to connect Globus to your OneDrive account, you may need to request approval. See [Requesting access to applications to connect to your data (M365 Enterprise Apps)](https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0018501).
 
-In addition to the specific installation instructions provided below for HPC, you will also find the Knowledge Base articles linked below useful for setting up Globus and accessing your storage.
-
-### Installing Globus Personal on HPC
-
-The following guidance has been adapted from [How To Install, Configure, and Uninstall Globus Connect Personal for Linux](https://docs.globus.org/globus-connect-personal/install/linux/):
-
-1. After logging on to HPC, download Globus:
-
-   ```bash
-   $ wget https://downloads.globus.org/globus-connect-personal/linux/stable/globusconnectpersonal-latest.tgz
-   ```
-
-2. Extract the tarball:
-
-   ```bash
-   $ tar xzf globusconnectpersonal-latest.tgz
-   # this will produce a versioned globusconnectpersonal directory
-   # replace `x.y.z` in the line below with the version number you see, or use tab complete
-   $ cd globusconnectpersonal-x.y.z
-   ```
-
-3. Run Globus personal to complete set-up without a GUI:
-
-   ```bash
-   $ ./globusconnectpersonal -setup --no-gui
-   ```
-
-   This will launch Globus, and your terminal should provide you with a URL to visit on your local machine to complete set-up (including University of Leeds SSO); you will then receive a key to copy and paste back into the command line on HPC. You will then need to set a name for this endpoint (e.g. `aire_endpoint` or `calder_endpoint` or something sensible). Please see the [Globus documentation](https://docs.globus.org/globus-connect-personal/install/linux/#running_with_no_gui) for further details.
-
-4. You can close Globus once set-up is complete.
-
-5. Modify or create the file `config-paths` (assuming you are still in the folder `globusconnectpersonal-x.y.z`) with your favourite text editor (this command will create the file if it doesn't already exist):
-
-   ```bash
-   $ nano ~/.globusonline/lta/config-paths
-   ```
-
-   This allows us to edit Globus permissions to various file paths. The `config-paths` file is a headerless CSV with the following content:
-
-   ```bash
-   <path>,<sharing flag>,<R/W flag>
-   ```
-
-   The nano command may create a new empty file, or you may already have this file, depending on the version of Globus. If there is already content in this file, you'll see something like this:
-
-   ```bash
-   ~/,0,1
-   ```
-
-   Which provides access to your home directory (`~/`), doesn't allow sharing (`0` is the sharing flag), and allows read/write access (`1` is the R/W flag). Don't worry if the file is empty; just add the above line and save in order to access your home directory (or `~/some_directory/,0,1` for a sub-directory).
-
-   You can also add `$SCRATCH` with the same permissions by adding the following line to the file and saving:
-
-   ```bash
-   $/mnt/scratch/$USER,0,1
-   ```
-
-   Or again, a sub-directory: `$/mnt/scratch/$USER/some_directory/,0,1`.
-
-   Read more about [Managing Globus Connect Personal Directory Permissions via the Config File in the official documentation](https://docs.globus.org/globus-connect-personal/install/linux/#config-paths).
-
-### Running Globus Personal on HPC
-
-1. Please read the [Globus webapp documentation](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/) and ensure your Globus endpoints are visible under "Connections" from the [webapp](https://app.globus.org/). Your newly configured HPC collection should also be present, but will show the status "offline".
-
-2. From HPC, run Globus with `nohup`:
-
-   ```bash
-   # replace `x.y.z` in the line below with the version number you see
-   $ cd globusconnectpersonal-x.y.z
-   $ ./globusconnectpersonal -start &
-   ```
-
-   If you refresh the [webapp](https://app.globus.org/), you should now see your HPC collection as "online". Because we used `&`, this will continue to run even when you log out of the HPC service, making disruption-free transfers easier. Note that if you edit any configuration etc. you will need to stop and restart Globus:
-
-   ```bash
-   $ ./globusconnectpersonal -stop
-   $ ./globusconnectpersonal -start &
-   ```
-
-3. Using the "File Manager" tab on the left of the screen, select HPC as a collection. By default, the path is to your home directory, however if you made `$SCRATCH` visible as per the installation instructions, you can also enter a path to a directory in this space: `/mnt/scratch/<USERNAME>/some_directory`.
-
-4. Using the UI, you can now transfer data across between HPC and another endpoint.
-
-### Relevant Globus Knowledge Base Articles
-
-+ <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0017543" target="_blank">Data transfer between Globus Collections, OneDrive, Microsoft Teams and SharePoint sites</a>: how to connect various University storage with Globus.
-+ <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0015444" target="_blank">Getting started with Globus data transfer service</a>: this article introduces Globus and signposts Globus documentation. This KB article also links to the Globus Data Transfer Service request form, to enable Globus on pre-existing University Storage.
-+ <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0015522" target="_blank">How to log into Globus</a>: this article shows you how to authorise Globus Web to use your University of Leeds account.
-+ <a href="https://it.leeds.ac.uk/it?id=kb_article_view&sysparm_article=KB0018026" target="_blank">Information about Research Data Storage Service Provision</a>: available research storage (Globus enabled).
+For more information about the Globus service itself, see the [Globus file transfer guide](https://docs.globus.org/guides/tutorials/manage-files/transfer-files/).
