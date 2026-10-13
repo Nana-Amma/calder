@@ -40,6 +40,7 @@ The figures below describe the overall capacity of each filesystem, not the quot
 | Scratch on Lustre | 3.7 PB | 2,997,485,568 |
 | Flash on Lustre | 139 TB | 293,022,729 |
 | Scratch on compute nodes | 372 GB per node | 24,838,144 per node |
+*\* Quantities available per node*
 
 ### Calder
 

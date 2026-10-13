@@ -1,55 +1,48 @@
-# Modules and Applications
+# Module System
 
-This page provides an overview of how software applications are managed on Aire and Calder.
+This page explains how software modules are managed on Aire and Calder, with a focus on the differences between their module systems. For basic instructions on finding and loading software, start with [Software on HPC](../software/start.md) and browse the relevant software pages.
 
-## Module system explained
+## What are environment modules?
 
-The HPC systems use a *module* system to manage software applications, a common approach on HPC systems. Modules make it possible to use multiple applications and versions without conflicts, while ensuring that centrally installed software is configured and optimised for the system.
+The HPC systems use an *environment module* system to manage centrally installed software. Modules let users select different applications and versions without having to manually configure their environments. They also help ensure that centrally installed software is configured for the system and reduce conflicts between applications and libraries.
 
-Calder uses a hierarchical module system: the software you can see depends on the CPU or GPU environment and the compiler or MPI stack currently loaded. Aire uses a flat module system, where `module avail` lists all available software directly. See [Using modules on Calder](#using-modules-on-calder) for details.
+The Research Computing team installs and maintains commonly used software centrally. If software would be useful to multiple users, you can [request a new software installation](page:request-software). Requests are assessed for suitability as a shared application. Most open-source software can be incorporated, and commercial software may be supported where suitable licences are available.
 
-## Installing and managing modules
+## Differences between Aire and Calder
 
-Popular software applications are installed and maintained centrally by the [Research Computing](https://arc.leeds.ac.uk/) team. This saves time, ensures the software is optimised for the HPC hardware, and prevents conflicts between applications that provide files or libraries with the same name. Access to licensed software can also be restricted to the appropriate user groups.
+Aire's current module system is **flat**: `module avail` lists the modules available in the current module path.
 
-```{admonition} Requesting new modules
-:class: note
-If software is likely to be useful to multiple users, you can [request a new software installation](page:request-software). Requests are assessed for suitability as a shared application. Most open-source software can be incorporated, and commercial software can be supported where suitable licences are available.
-```
+Calder uses a **hierarchical** module system. The software visible to you depends on the CPU or GPU environment and, where applicable, the compiler or MPI stack that you have loaded. As a result, `module avail` may show only a small number of top-level environments until you load one.
 
-(using-modules-on-calder)=
+The current Aire system and Calder therefore have different software discovery and loading workflows. Aire 2.0 is planned to introduce a hierarchical module system similar to Calder.
 
-## Using modules on Calder
-
-Calder uses a hierarchical module system to provide software environments for both CPU and GPU workloads.
+## Calder's module hierarchy
 
 ### Recommended module configuration
 
-After logging in, we recommend setting the module path to use only the Calder software stack:
+After logging in to Calder, please set the module path to use Calder's software stack:
 
 ```bash
 export MODULEPATH=/uol/apps/calder/modules
 ```
 
-This reduces the likelihood of accidentally loading software from another system and helps ensure you are working with the intended Calder software environment.
+This reduces the likelihood of accidentally loading software from another system and helps ensure you are using the intended Calder software environment.
 
 :::{note}
-Integration of the software environments across Aire and Calder is ongoing, so the separation between the two is not yet fully refined.
+Integration of the software environments across Aire and Calder is ongoing, so the separation between them is not yet fully refined.
 
-Even without modifying `MODULEPATH`, Calder modules will still be available. However, you may see software from multiple environments, which can make it difficult to determine exactly what is being loaded.
-
-To avoid confusion, we recommend setting the `MODULEPATH` as shown above.
+Calder modules remain available even if you do not modify `MODULEPATH`. However, you may see software from multiple environments, which can make it harder to determine which module is being loaded. We recommend setting `MODULEPATH` as shown above to avoid this confusion.
 :::
 
-### Discovering available software
+### Understanding the hierarchy
 
-Once the module path has been configured, you can view the top-level environments by running:
+To view the top-level environments available on Calder, run:
 
 ```bash
 module avail
 ```
 
-You should see something similar to:
+The output should look similar to:
 
 ```text
 ------------- /uol/apps/calder/modules ------------
@@ -57,40 +50,36 @@ You should see something similar to:
 calder/cpu calder/hopper (D)
 ```
 
-The `(D)` indicates the default environment.
+The `(D)` indicates the default environment. The top-level environments include:
 
-`module avail` only shows software that is currently available within the active layer of the module hierarchy. Initially, only the top-level environments are visible:
+- `calder/cpu` - software environment for CPU workloads.
+- `calder/hopper` - software environment for workloads using Calder's GPU nodes.
 
-- `calder/cpu`
-- `calder/hopper`
-
-After loading one of these environments, additional software becomes available. For example:
+Load the environment that matches your workload to make additional software available. For example, to view software built for the CPU environment, run:
 
 ```bash
 module load calder/cpu
 module avail
 ```
 
-will reveal software built for the CPU environment. Similarly:
+For the Hopper GPU environment, run:
 
 ```bash
 module load calder/hopper
 module avail
 ```
 
-will reveal software built for the Hopper GPU environment. As you load additional compiler, MPI, or software modules, further layers of compatible software become available.
+Loading compiler, MPI or other software modules may expose further layers of compatible software in the hierarchy.
 
-### Using `module spider`
+### Searching the full module hierarchy
 
-If you want to explore all software available in the module tree, we recommend using:
+`module avail` shows modules visible in the currently active layer. To search across the full module tree, use:
 
 ```bash
 module spider
 ```
 
-Unlike `module avail`, this command searches the entire hierarchy and displays software that may not yet be visible in the current environment.
-
-Once you find a package of interest, you can obtain instructions for loading it:
+To find the loading instructions and prerequisites for a particular package, run:
 
 ```bash
 module spider <module-name>
@@ -99,29 +88,9 @@ module spider <module-name>
 For example:
 
 ```bash
-module spider gromacs
+module spider openfoam
 ```
 
-This will display the required modules and loading sequence needed to access the requested software.
+The output describes the available versions and any prerequisite modules or loading sequence required to use the software.
 
-## Using modules on Aire
-
-On Aire, users can list, load, and unload modules using the `module` command:
-
-List currently available modules:
-
-```bash
-module avail
-```
-
-Load a specific module:
-
-```bash
-module load <module-name>
-```
-
-Unload a module (useful for avoiding module conflicts and for workflow separation):
-
-```bash
-module unload <module-name>
-```
+For general instructions on loading a module and links to available software, see [Software on HPC](../software/start.md).
