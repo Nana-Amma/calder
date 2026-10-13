@@ -454,7 +454,7 @@
 <p>For comprehensive details about the storage systems available on Aire and Calder, please refer to the <a class="reference internal" href="../../system/storage_filesystem.html#page-storage-filesystem"><span class="std std-ref">Storage and Filesystem</span></a> section.</p>
 <section id="using-scratch-on-lustre-disk-based">
 <h2>Using Scratch on Lustre (disk-based)<a class="headerlink" href="#using-scratch-on-lustre-disk-based" title="Link to this heading">#</a></h2>
-<p>Scratch on Lustre provides shared, high-capacity storage for large datasets and active project data. The path to this storage is set automatically in your job as the environment variable <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code>.</p>
+<p>Scratch on Lustre provides shared, high-capacity storage for large datasets and active project data. The path to this storage is set automatically in your job as the environment variable <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> on Aire.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-0">
@@ -464,7 +464,7 @@ Aire</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-1">
 Calder</label><div class="sd-tab-content docutils">
-<p>On Calder, <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> points to <code class="docutils literal notranslate"><span class="pre">/scratch-calder/&lt;username&gt;</span></code>.</p>
+<p>On Calder, the path to the Scratch directory is  <code class="docutils literal notranslate"><span class="pre">/scratch-calder/users/&lt;username&gt;</span></code>.</p>
 </div>
 </div>
 <div class="admonition note">
@@ -474,7 +474,7 @@ Calder</label><div class="sd-tab-content docutils">
 </section>
 <section id="using-flash-on-lustre-nvmebased">
 <h2>Using Flash on Lustre (NVMe‑based)<a class="headerlink" href="#using-flash-on-lustre-nvmebased" title="Link to this heading">#</a></h2>
-<p>Flash on Lustre provides high-performance, NVMe-based temporary storage, ideal for I/O‑intensive workloads and jobs requiring rapid access to large datasets across multiple nodes. The path to this storage is set automatically in your job as the environment variable <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code>.</p>
+<p>Flash on Lustre provides high-performance, NVMe-based temporary storage, ideal for I/O‑intensive workloads and jobs requiring rapid access to large datasets across multiple nodes. The path to this storage is set automatically in your job as the environment variable <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code> on Aire.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-2">
@@ -484,7 +484,7 @@ Aire</label><div class="sd-tab-content docutils">
 <input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-3">
 Calder</label><div class="sd-tab-content docutils">
-<p>On Calder, <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code> points to <code class="docutils literal notranslate"><span class="pre">/flash-calder/tmp/job.&lt;JOB-ID&gt;</span></code>.</p>
+<p>On Calder, the path to the NVMe-based Scratch directory is <code class="docutils literal notranslate"><span class="pre">/flash-calder/users/&lt;username&gt;</span></code>.</p>
 </div>
 </div>
 <div class="admonition note">

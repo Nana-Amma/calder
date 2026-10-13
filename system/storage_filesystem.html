@@ -435,21 +435,19 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-of-storage-types-on-aire">Summary of storage types on Aire</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-storage-descriptions">Detailed storage descriptions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#home-directory">Home Directory</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-on-lustre-disk-based">Scratch on Lustre (disk-based)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flash-on-lustre-nvme-based">Flash on Lustre (NVMe-based)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-on-compute-nodes">Scratch on compute nodes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-capacity-and-limits-on-aire">Storage Capacity and Limits on Aire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-at-a-glance">Storage at a glance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aire">Aire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calder">Calder</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calder-storage">Calder storage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-capacity-and-limits-on-calder">Storage Capacity and Limits on Calder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#total-filesystem-capacity">Total filesystem capacity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Aire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Calder</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-filesystem-becomes-full">When a Filesystem Becomes Full</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-community-responsibility">A Community Responsibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-and-managing-storage">Choosing and managing storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-filesystem-becomes-full">When a filesystem becomes full</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-shared-responsibility">A shared responsibility</a></li>
 </ul>
             </nav>
         </div>
@@ -463,235 +461,201 @@
                   
   <section id="storage-and-filesystem">
 <span id="page-storage-filesystem"></span><h1>Storage and Filesystem<a class="headerlink" href="#storage-and-filesystem" title="Link to this heading">#</a></h1>
-<p>Our HPC systems provide several storage options to support a wide range of research workflows. This section summarises the available storage types, their key features, and the best practices for managing quotas and data efficiently.</p>
-<section id="summary-of-storage-types-on-aire">
-<h2>Summary of storage types on Aire<a class="headerlink" href="#summary-of-storage-types-on-aire" title="Link to this heading">#</a></h2>
-<p>The table below gives a high-level comparison of each storage option. Environment variables such as <code class="docutils literal notranslate"><span class="pre">$HOME</span></code> and <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> make navigation easier by pointing directly to the correct directories.</p>
+<p>Our HPC systems provide several storage options for different stages of a research workflow. Use your home directory for persistent files, shared scratch storage for datasets and job input/output, and temporary storage for data that only needs to exist while a job is running.</p>
+<p>Storage quotas and paths differ between systems. Scratch and temporary storage are <strong>not backed up</strong>, so keep an independent copy of any data you cannot afford to lose.</p>
+<section id="storage-at-a-glance">
+<h2>Storage at a glance<a class="headerlink" href="#storage-at-a-glance" title="Link to this heading">#</a></h2>
+<section id="aire">
+<h3>Aire<a class="headerlink" href="#aire" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p><strong>Storage Type</strong></p></th>
-<th class="head"><p><strong>Details</strong></p></th>
+<tr class="row-odd"><th class="head"><p>Storage type</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Environment variable</p></th>
+<th class="head"><p>Quota or capacity</p></th>
+<th class="head"><p>Backed up?</p></th>
+<th class="head"><p>Automatically deleted?</p></th>
+<th class="head"><p>Recommended use</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><strong>Home Folder</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$HOME</span></code><br><strong>Quota:</strong> 65 GB, 1.5 million files<br><strong>Backup:</strong> ✅ Yes<br><strong>Automatic deletion:</strong> ❌ No<br><strong>Best for:</strong> Persistent small files such as scripts, notes, and configuration files</p></td>
+<tr class="row-even"><td><p>Home directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$HOME</span></code> (also available as <code class="docutils literal notranslate"><span class="pre">~</span></code>)</p></td>
+<td><p>65 GB and 1.5 million files per user</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>Scripts, notes, documentation and configuration files</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Scratch on Lustre (disk-based)</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/mnt/scratch/&lt;username&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code><br><strong>Quota:</strong> 1 TB, 1.5 million files<br><strong>Backup:</strong> ❌ No<br><strong>Automatic deletion:</strong> ❌ No<br><strong>Best for:</strong> Large datasets and active project data</p></td>
+<tr class="row-odd"><td><p>Scratch on Lustre (disk-based)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/mnt/scratch/&lt;username&gt;</span></code>; <code class="docutils literal notranslate"><span class="pre">/scratch</span></code> links to <code class="docutils literal notranslate"><span class="pre">/mnt/scratch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code></p></td>
+<td><p>1 TB and 1.5 million files per user</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Large datasets and active project data</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Flash on Lustre (NVMe-based)</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/mnt/flash/tmp/job.&lt;JOB-ID&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code><br><strong>Quota:</strong> 1 TB, 1.5 million files<br><strong>Backup:</strong> ❌ No<br><strong>Automatic deletion:</strong> ✅ Yes<br><strong>Best for:</strong> I/O-intensive tasks</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Scratch on compute nodes</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/tmp/job.JOB-ID</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$TMP_LOCAL</span></code>, <code class="docutils literal notranslate"><span class="pre">$TMPDIR</span></code><br><strong>Quota:</strong> None, subject to node storage availability<br><strong>Backup:</strong> ❌ No<br><strong>Automatic deletion:</strong> ✅ Yes<br><strong>Best for:</strong> Single-node jobs needing fast, local storage</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<div><p><strong>Key information</strong></p>
-<ul class="simple">
-<li><p><strong>Temporary data</strong>: Files in <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code>, <code class="docutils literal notranslate"><span class="pre">$TMP_LOCAL</span></code>, and <code class="docutils literal notranslate"><span class="pre">$TMPDIR</span></code> are automatically deleted when a job completes.</p></li>
-<li><p><strong>No backups</strong>: Data in <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code>, <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code>, <code class="docutils literal notranslate"><span class="pre">$TMP_LOCAL</span></code>, and <code class="docutils literal notranslate"><span class="pre">$TMPDIR</span></code> is not backed up. Archive critical files to your Home Folder or external storage.</p></li>
-</ul>
-</div></blockquote>
-</section>
-<section id="detailed-storage-descriptions">
-<h2>Detailed storage descriptions<a class="headerlink" href="#detailed-storage-descriptions" title="Link to this heading">#</a></h2>
-<section id="home-directory">
-<h3>Home Directory<a class="headerlink" href="#home-directory" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Path and environment</strong></p>
-<ul>
-<li><p>Directory: <code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code></p></li>
-<li><p>Accessible via the <code class="docutils literal notranslate"><span class="pre">$HOME</span></code> variable and the <code class="docutils literal notranslate"><span class="pre">~</span></code> shortcut.</p></li>
-</ul>
-</li>
-<li><p><strong>Quota</strong>: 65 GB and up to 1.5 million files.</p></li>
-<li><p><strong>Backup</strong>: Yes, with periodic backups. External archiving is recommended for critical data.</p></li>
-<li><p><strong>Automatic deletion</strong>: No.</p></li>
-<li><p><strong>Usage</strong>: Best for persistent, small files such as scripts, documentation, and configuration files. It is not intended for high I/O workloads.</p></li>
-</ul>
-</section>
-<section id="scratch-on-lustre-disk-based">
-<h3>Scratch on Lustre (disk-based)<a class="headerlink" href="#scratch-on-lustre-disk-based" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Path and environment</strong></p>
-<ul>
-<li><p>Directory: <code class="docutils literal notranslate"><span class="pre">/mnt/scratch/&lt;username&gt;</span></code></p></li>
-<li><p>Accessible via the <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> variable.</p></li>
-<li><p>Symlink: <code class="docutils literal notranslate"><span class="pre">/scratch</span></code> → <code class="docutils literal notranslate"><span class="pre">/mnt/scratch</span></code></p></li>
-</ul>
-</li>
-<li><p><strong>Quota</strong>: 1 TB and up to 1.5 million files.</p></li>
-<li><p><strong>Backup</strong>: No.</p></li>
-<li><p><strong>Automatic deletion</strong>: No.</p></li>
-<li><p><strong>Usage</strong>: Designed for large datasets and active job data. Manual cleanup is essential to avoid exceeding quotas.</p></li>
-</ul>
-</section>
-<section id="flash-on-lustre-nvme-based">
-<h3>Flash on Lustre (NVMe-based)<a class="headerlink" href="#flash-on-lustre-nvme-based" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Path and environment</strong></p>
-<ul>
-<li><p>Directory: <code class="docutils literal notranslate"><span class="pre">/mnt/flash/tmp/job.&lt;JOB-ID&gt;</span></code></p></li>
-<li><p>Accessible via the <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code> variable.</p></li>
-<li><p>Symlink: <code class="docutils literal notranslate"><span class="pre">/flash</span></code> → <code class="docutils literal notranslate"><span class="pre">/mnt/flash</span></code></p></li>
-</ul>
-</li>
-<li><p><strong>Quota</strong>: 1 TB per job and up to 1.5 million files per job.</p></li>
-<li><p><strong>Backup</strong>: No.</p></li>
-<li><p><strong>Automatic deletion</strong>: Yes. Files are purged when the job completes.</p></li>
-<li><p><strong>Usage</strong>: Optimised for I/O-intensive tasks such as simulations. Ideal for workloads that require high performance during the job period.</p></li>
-</ul>
-</section>
-<section id="scratch-on-compute-nodes">
-<h3>Scratch on compute nodes<a class="headerlink" href="#scratch-on-compute-nodes" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Path and environment</strong></p>
-<ul>
-<li><p>Directory: <code class="docutils literal notranslate"><span class="pre">/tmp</span></code></p></li>
-<li><p>Accessible via <code class="docutils literal notranslate"><span class="pre">$TMP_LOCAL</span></code> and <code class="docutils literal notranslate"><span class="pre">$TMPDIR</span></code>.</p></li>
-</ul>
-</li>
-<li><p><strong>Quota</strong>: None, subject to node storage availability.</p></li>
-<li><p><strong>Backup</strong>: No.</p></li>
-<li><p><strong>Automatic deletion</strong>: Yes. Data is purged after job completion.</p></li>
-<li><p><strong>Usage</strong>: Best for fast, node-local storage during single-node jobs. Data is not shared between nodes and remains local to the node.</p></li>
-</ul>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p>For detailed guidance on best practices for using storage and filesystems, see the <a class="reference internal" href="../usage/file_management/start.html"><span class="std std-doc">File and Data Management</span></a> section.</p>
-</div>
-</section>
-<section id="storage-capacity-and-limits-on-aire">
-<h3>Storage Capacity and Limits on Aire<a class="headerlink" href="#storage-capacity-and-limits-on-aire" title="Link to this heading">#</a></h3>
-<p>As explained above, Aire provides several shared storage areas. Each has a finite capacity, and usage is managed collectively across all users:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Filesystem</p></th>
-<th class="head"><p>Total Space</p></th>
-<th class="head"><p>Total Inode</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Home Directory</p></td>
-<td><p>106 TB</p></td>
-<td><p>2,269,138,752</p></td>
-</tr>
-<tr class="row-odd"><td><p>Scratch on Lustre</p></td>
-<td><p>3.7 PB</p></td>
-<td><p>2,997,485,568</p></td>
-</tr>
-<tr class="row-even"><td><p>Flash on Lustre</p></td>
-<td><p>139 TB</p></td>
-<td><p>293,022,729</p></td>
+<tr class="row-even"><td><p>Flash on Lustre (NVMe-based)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/mnt/flash/tmp/job.&lt;JOB-ID&gt;</span></code>; <code class="docutils literal notranslate"><span class="pre">/flash</span></code> links to <code class="docutils literal notranslate"><span class="pre">/mnt/flash</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code></p></td>
+<td><p>1 TB and 1.5 million files per job</p></td>
+<td><p>No</p></td>
+<td><p>Yes, at job completion</p></td>
+<td><p>I/O-intensive work that benefits from high-performance shared storage</p></td>
 </tr>
 <tr class="row-odd"><td><p>Scratch on compute nodes</p></td>
-<td><p>372 GB*</p></td>
-<td><p>24,838,144*</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/tmp</span></code> (job-specific directories may also be provided)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$TMP_LOCAL</span></code>, <code class="docutils literal notranslate"><span class="pre">$TMPDIR</span></code></p></td>
+<td><p>No fixed quota; limited by available space on the node</p></td>
+<td><p>No</p></td>
+<td><p>Yes, at job completion</p></td>
+<td><p>Fast, node-local temporary data for single-node jobs</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p><em>* Quantities available per node</em></p>
 </section>
-</section>
-<section id="calder-storage">
-<h2>Calder storage<a class="headerlink" href="#calder-storage" title="Link to this heading">#</a></h2>
-<p id="id1">Calder provides its own Lustre parallel filesystem alongside Aire’s, following the same pattern of persistent home storage plus disk-based and NVMe-based scratch space.</p>
+<section id="calder">
+<h3>Calder<a class="headerlink" href="#calder" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p><strong>Storage Type</strong></p></th>
-<th class="head"><p><strong>Details</strong></p></th>
+<tr class="row-odd"><th class="head"><p>Storage type</p></th>
+<th class="head"><p>Path</p></th>
+<th class="head"><p>Environment variable</p></th>
+<th class="head"><p>Quota or capacity</p></th>
+<th class="head"><p>Backed up?</p></th>
+<th class="head"><p>Automatically deleted?</p></th>
+<th class="head"><p>Recommended use</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><strong>Home Folder</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$HOME</span></code><br><strong>Shared with:</strong> Aire, so your home directory is the same on both systems<br><strong>Backup:</strong> ✅ Yes<br><strong>Best for:</strong> Persistent small files such as scripts, notes, and configuration files</p></td>
+<tr class="row-even"><td><p>Home directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$HOME</span></code> (also available as <code class="docutils literal notranslate"><span class="pre">~</span></code>)</p></td>
+<td><p>Shared with Aire</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+<td><p>Scripts, notes, documentation and configuration files</p></td>
 </tr>
-<tr class="row-odd"><td><p><strong>Scratch on Lustre (disk-based)</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/scratch-calder/&lt;username&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code><br><strong>Quota:</strong> Project-based<br><strong>Backup:</strong> ❌ No<br><strong>Best for:</strong> Large datasets and active project data</p></td>
+<tr class="row-odd"><td><p>Scratch on Lustre (disk-based)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/scratch-calder/users/</span></code></p></td>
+<td><p>Not currently defined</p></td>
+<td><p>1 TB and 1.5 million inodes per project</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Large datasets and active project data</p></td>
 </tr>
-<tr class="row-even"><td><p><strong>Flash on Lustre (NVMe-based)</strong></p></td>
-<td><p><strong>Path:</strong> <code class="docutils literal notranslate"><span class="pre">/flash-calder/tmp/job.&lt;JOB-ID&gt;</span></code><br><strong>Environment variable:</strong> <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code><br><strong>Quota:</strong> Project-based<br><strong>Automatic deletion:</strong> ✅ Yes<br><strong>Best for:</strong> I/O-intensive tasks</p></td>
+<tr class="row-even"><td><p>Flash on Lustre (NVMe-based)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/flash-calder/users/</span></code></p></td>
+<td><p>Not currently defined</p></td>
+<td><p>1 TB and 1.5 million inodes per project</p></td>
+<td><p>No</p></td>
+<td><p>Confirm the lifetime of files for your job before relying on them</p></td>
+<td><p>I/O-intensive work that benefits from high-performance shared storage</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Unlike Aire’s fixed per-user quotas, Calder uses project-based quotas, with limits set per project by Research IT.</p>
-<section id="storage-capacity-and-limits-on-calder">
-<h3>Storage Capacity and Limits on Calder<a class="headerlink" href="#storage-capacity-and-limits-on-calder" title="Link to this heading">#</a></h3>
+<p>On Calder, quotas for both scratch filesystems are applied per Slurm project. The current limits are 1 TB and 1.5 million inodes per project on each filesystem. The <code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code> and <code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code> environment variables are not currently defined on Calder, so use the paths listed above. Aire 2.0 will also use project-based quotas; the current Aire system uses per-user quotas. For instructions on checking your quota and usage, see <a class="reference internal" href="../usage/file_management/filesystem_quotas.html#page-filesystem-quotas"><span class="std std-ref">Filesystem Quotas</span></a>. If you are unsure which project quota applies to your work, contact the Research Computing team.</p>
+<p>The home directory is shared between Aire and Calder, so files stored in <code class="docutils literal notranslate"><span class="pre">/users/&lt;username&gt;</span></code> are available on both systems. This does <strong>not</strong> mean that the scratch filesystems are shared: use the appropriate path for the system on which you are working.</p>
+</section>
+</section>
+<section id="total-filesystem-capacity">
+<h2>Total filesystem capacity<a class="headerlink" href="#total-filesystem-capacity" title="Link to this heading">#</a></h2>
+<p>The figures below describe the overall capacity of each filesystem, not the quota available to an individual user or project.</p>
+<section id="id1">
+<h3>Aire<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Filesystem</p></th>
-<th class="head"><p>Total Space</p></th>
+<th class="head text-right"><p>Total space</p></th>
+<th class="head text-right"><p>Total inodes</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Home Directory</p></td>
-<td><p>Shared with Aire</p></td>
+<tr class="row-even"><td><p>Home directory</p></td>
+<td class="text-right"><p>106 TB</p></td>
+<td class="text-right"><p>2,269,138,752</p></td>
 </tr>
-<tr class="row-odd"><td><p>Scratch on Lustre (<code class="docutils literal notranslate"><span class="pre">/scratch-calder</span></code>)</p></td>
-<td><p>~6.3 PB</p></td>
+<tr class="row-odd"><td><p>Scratch on Lustre</p></td>
+<td class="text-right"><p>3.7 PB</p></td>
+<td class="text-right"><p>2,997,485,568</p></td>
 </tr>
-<tr class="row-even"><td><p>Flash on Lustre (<code class="docutils literal notranslate"><span class="pre">/flash-calder</span></code>)</p></td>
-<td><p>~246 TB</p></td>
+<tr class="row-even"><td><p>Flash on Lustre</p></td>
+<td class="text-right"><p>139 TB</p></td>
+<td class="text-right"><p>293,022,729</p></td>
+</tr>
+<tr class="row-odd"><td><p>Scratch on compute nodes</p></td>
+<td class="text-right"><p>372 GB per node</p></td>
+<td class="text-right"><p>24,838,144 per node</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When the upgraded Aire system (Aire 2.0) launches, Aire’s scratch and flash paths will be renamed to <code class="docutils literal notranslate"><span class="pre">/scratch-aire</span></code> and <code class="docutils literal notranslate"><span class="pre">/flash-aire</span></code> respectively, to distinguish them from Calder’s storage.</p>
-</div>
 </section>
+<section id="id2">
+<h3>Calder<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Filesystem</p></th>
+<th class="head text-right"><p>Total space</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Home directory</p></td>
+<td class="text-right"><p>Shared with Aire</p></td>
+</tr>
+<tr class="row-odd"><td><p>Scratch on Lustre (<code class="docutils literal notranslate"><span class="pre">/scratch-calder</span></code>)</p></td>
+<td class="text-right"><p>Approximately 6.3 PB</p></td>
+</tr>
+<tr class="row-even"><td><p>Flash on Lustre (<code class="docutils literal notranslate"><span class="pre">/flash-calder</span></code>)</p></td>
+<td class="text-right"><p>Approximately 246 TB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>When Aire 2.0 launches, Aire’s scratch and flash paths are expected to change to <code class="docutils literal notranslate"><span class="pre">/scratch-aire</span></code> and <code class="docutils literal notranslate"><span class="pre">/flash-aire</span></code> respectively, distinguishing them from Calder’s filesystems. Check the updated documentation when the Aire 2.0 upgrade is complete.</p>
+</section>
+</section>
+<section id="choosing-and-managing-storage">
+<h2>Choosing and managing storage<a class="headerlink" href="#choosing-and-managing-storage" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Use your home directory for persistent, relatively small files.</strong> It is backed up, but is not intended for high-I/O workloads.</p></li>
+<li><p><strong>Use disk-based scratch for large datasets and active work.</strong> It is not backed up and files are not automatically deleted, so remove data you no longer need and keep important data elsewhere.</p></li>
+<li><p><strong>Use flash scratch for jobs with demanding I/O requirements.</strong> It uses NVMe-based storage and is not backed up. Treat it as temporary job storage and check the relevant job environment and file lifetime before using it.</p></li>
+<li><p><strong>Use compute-node scratch for node-local temporary files.</strong> It is not shared between nodes, so a file written to one node’s <code class="docutils literal notranslate"><span class="pre">/tmp</span></code> is not automatically available on another node.</p></li>
+<li><p><strong>Do not treat any scratch area as your only copy of important data.</strong> Copy important results to backed-up storage or an appropriate external storage location.</p></li>
+<li><p><strong>Monitor both space and file counts.</strong> A quota can be reached by using too much storage or by creating too many files.</p></li>
+</ul>
+<p>For more guidance, see <a class="reference internal" href="../usage/file_management/start.html"><span class="std std-doc">File and Data Management</span></a>, including <a class="reference internal" href="../usage/file_management/best_practices.html#page-best-practices"><span class="std std-ref">Best Practices</span></a> and <a class="reference internal" href="../usage/file_management/filesystem_quotas.html#page-filesystem-quotas"><span class="std std-ref">Filesystem Quotas</span></a>.</p>
 </section>
 <section id="when-a-filesystem-becomes-full">
-<h2>When a Filesystem Becomes Full<a class="headerlink" href="#when-a-filesystem-becomes-full" title="Link to this heading">#</a></h2>
-<p>While the quota system helps manage individual usage, it doesn’t guarantee that the overall filesystem won’t fill up. Quotas are intentionally <strong>oversubscribed</strong> to maximise usable space — most users don’t use their full quota all the time. However, this means it’s possible for the filesystem itself to become critically full.</p>
-<p>When a filesystem reaches <strong>90% capacity</strong>, performance starts to degrade significantly:</p>
-<ul class="simple">
-<li><p><strong>Jobs may run slower</strong> due to fragmentation or allocation delays.</p></li>
-<li><p><strong>Write operations may fail</strong>, leading to job crashes or incomplete output.</p></li>
-<li><p><strong>Files may become corrupted</strong> if writes are interrupted mid-operation.</p></li>
-</ul>
-<p>At <strong>100% usage</strong>, the consequences are severe:</p>
-<ul class="simple">
-<li><p>Any process attempting to write data will receive a <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">space</span> <span class="pre">left</span> <span class="pre">on</span> <span class="pre">device</span></code> error.</p></li>
-<li><p>Files being written may be <strong>truncated or corrupted</strong> — data loss is likely.</p></li>
-<li><p>Running jobs will fail.</p></li>
-<li><p>New jobs cannot start reliably.</p></li>
-</ul>
-<p>At this stage, to protect system integrity and avoid cascading failures, we take the following immediate actions when a filesystem becomes critically full:</p>
+<h2>When a filesystem becomes full<a class="headerlink" href="#when-a-filesystem-becomes-full" title="Link to this heading">#</a></h2>
+<p>Per-user or per-project quotas help manage individual usage, but they do not guarantee that the filesystem as a whole will have free space. Quotas may be oversubscribed because not every user or project uses its full allowance at the same time. As a result, a filesystem can become critically full even when some users are within their quotas.</p>
+<p>As filesystem usage approaches capacity, performance and reliability can be affected. At high utilisation, users may experience slower jobs, failed writes or incomplete output. If a filesystem reaches 100% usage, write operations may fail with <code class="docutils literal notranslate"><span class="pre">No</span> <span class="pre">space</span> <span class="pre">left</span> <span class="pre">on</span> <span class="pre">device</span></code>, jobs may fail, and files being written may be truncated or corrupted.</p>
+<p>If a filesystem becomes critically full, Research IT may need to take urgent action to recover space and protect the service. This may include:</p>
 <ol class="arabic simple">
-<li><p><strong>Job scheduling will be suspended.</strong> No new jobs will start until space is recovered.</p></li>
-<li><p><strong>A site-wide email will be sent</strong> to all users asking for urgent data cleanup.</p></li>
-<li><p><strong>Files will be proactively deleted without warning</strong> to relieve the space shortage.</p></li>
-<li><p><strong>System reboot may be required</strong> to restore stability.</p></li>
+<li><p>Temporarily suspending job scheduling so that additional jobs do not increase the pressure on the filesystem.</p></li>
+<li><p>Emailing users to request urgent data cleanup.</p></li>
+<li><p>Removing files to recover space, potentially without individual warning in an emergency.</p></li>
+<li><p>Rebooting or otherwise recovering affected services if necessary.</p></li>
 </ol>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Rebooting the system means <strong>all users lose access</strong> temporarily. This also carries a small risk of hardware issues or service delays during the recovery.</p>
+<p>Emergency recovery actions may temporarily interrupt access to the system. In exceptional circumstances, immediate action may be necessary to protect the wider service, and files may be removed without warning. Keep independent copies of important data and respond promptly to Research IT notices.</p>
 </div>
 </section>
-<section id="a-community-responsibility">
-<h2>A Community Responsibility<a class="headerlink" href="#a-community-responsibility" title="Link to this heading">#</a></h2>
-<p>The HPC system is a shared resource. Although we monitor usage closely and take preemptive action when possible, <strong>the majority of data is managed by users</strong>, not system administrators.</p>
-<p>For this reason, we ask everyone to:</p>
+<section id="a-shared-responsibility">
+<h2>A shared responsibility<a class="headerlink" href="#a-shared-responsibility" title="Link to this heading">#</a></h2>
+<p>Storage is a shared resource, and users play an important role in keeping it reliable for everyone. Please:</p>
 <ul class="simple">
-<li><p>Regularly review and clean up your data.</p></li>
-<li><p>Follow our <a class="reference internal" href="../usage/file_management/best_practices.html#page-best-practices"><span class="std std-ref">Best Practices</span></a> for data management and storage usage.</p></li>
-<li><p>Understand and respect your <a class="reference internal" href="../usage/file_management/filesystem_quotas.html#page-filesystem-quotas"><span class="std std-ref">Filesystem Quotas</span></a>, and monitor them regularly.</p></li>
-<li><p>Comply with the <a class="reference internal" href="../getting_started/rules_regulations.html#page-rules-regulations"><span class="std std-ref">Rules and Regulations for using Aire</span></a>.</p></li>
-<li><p>Respond promptly to any system alerts or emails — early action can prevent disruption for the entire community.</p></li>
+<li><p>Review and clean up data regularly, especially on scratch filesystems.</p></li>
+<li><p>Monitor your filesystem quotas and file counts.</p></li>
+<li><p>Follow the <a class="reference internal" href="../usage/file_management/best_practices.html#page-best-practices"><span class="std std-ref">Best Practices</span></a> for data management and storage usage.</p></li>
+<li><p>Follow the <a class="reference internal" href="../getting_started/rules_regulations.html#page-rules-regulations"><span class="std std-ref">Rules and Regulations for using Aire</span></a> where applicable.</p></li>
+<li><p>Respond promptly to system alerts and emails from Research IT.</p></li>
 </ul>
-<p>By following these guidelines, you help protect not only your work, but also the reliability of the HPC platform as a whole.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>In emergency situations, we may take <strong>immediate and irreversible actions without warning</strong> to protect the system and ensure continued access for the wider community.</p>
-</div>
+<p>Good storage management helps protect your research data and reduces the risk of disruption for the wider HPC community.</p>
 </section>
 </section>
 
@@ -760,21 +724,19 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-of-storage-types-on-aire">Summary of storage types on Aire</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-storage-descriptions">Detailed storage descriptions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#home-directory">Home Directory</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-on-lustre-disk-based">Scratch on Lustre (disk-based)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flash-on-lustre-nvme-based">Flash on Lustre (NVMe-based)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scratch-on-compute-nodes">Scratch on compute nodes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-capacity-and-limits-on-aire">Storage Capacity and Limits on Aire</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-at-a-glance">Storage at a glance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aire">Aire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calder">Calder</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calder-storage">Calder storage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storage-capacity-and-limits-on-calder">Storage Capacity and Limits on Calder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#total-filesystem-capacity">Total filesystem capacity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Aire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Calder</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-filesystem-becomes-full">When a Filesystem Becomes Full</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-community-responsibility">A Community Responsibility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-and-managing-storage">Choosing and managing storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-filesystem-becomes-full">When a filesystem becomes full</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-shared-responsibility">A shared responsibility</a></li>
 </ul>
   </nav></div>
 

@@ -461,8 +461,8 @@
                 <article class="bd-article">
                   
   <section id="filesystem-quotas">
-<h1>Filesystem Quotas<a class="headerlink" href="#filesystem-quotas" title="Link to this heading">#</a></h1>
-<p id="page-filesystem-quotas">We use quotas on the filesystems to manage the usage of the space fairly among the users and to try to avoid or reduce situations where a filesystem fails. If you believe you have a genuine need for additional storage, a request can be made — but please ensure you have read the full documentation first and confirmed that you are following all recommended practices for managing your current quota.</p>
+<span id="page-filesystem-quotas"></span><h1>Filesystem Quotas<a class="headerlink" href="#filesystem-quotas" title="Link to this heading">#</a></h1>
+<p>We use quotas on the filesystems to manage the usage of the space fairly among the users and to try to avoid or reduce situations where a filesystem fails. If you believe you have a genuine need for additional storage, a request can be made — but please ensure you have read the full documentation first and confirmed that you are following all recommended practices for managing your current quota.</p>
 <p>The quota system tracks two key metrics: the amount of disk space used and the number of inodes.</p>
 <ul class="simple">
 <li><p>The <strong>space quota</strong> limits the total size of your data.</p></li>
@@ -543,16 +543,16 @@ Calder</label><div class="sd-tab-content docutils">
 <tr class="row-even"><td><p>Home Folder (<code class="docutils literal notranslate"><span class="pre">$HOME</span></code>)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">quota</span> <span class="pre">-s</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Scratch on Lustre (<code class="docutils literal notranslate"><span class="pre">$SCRATCH</span></code>)</p></td>
+<tr class="row-odd"><td><p>Scratch on Lustre</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">quota</span> <span class="pre">-h</span> <span class="pre">-p</span> <span class="pre">&lt;project-id&gt;</span> <span class="pre">/scratch-calder</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Flash on Lustre (<code class="docutils literal notranslate"><span class="pre">$TMP_SHARED</span></code>)</p></td>
+<tr class="row-even"><td><p>Flash on Lustre</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">quota</span> <span class="pre">-h</span> <span class="pre">-p</span> <span class="pre">&lt;project-id&gt;</span> <span class="pre">/flash-calder</span></code></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Your <code class="docutils literal notranslate"><span class="pre">&lt;project-id&gt;</span></code> is the Slurm project associated with your account; contact Research IT if you’re unsure of yours.</p>
+<p>Your <code class="docutils literal notranslate"><span class="pre">&lt;project-id&gt;</span></code> is your UID, you can find out your UID by running the <code class="docutils literal notranslate"><span class="pre">id</span></code> command.</p>
 </div>
 </div>
 <p><em>Note: The <code class="docutils literal notranslate"><span class="pre">quota</span></code> command is used for network-mounted filesystems like NFS, which is the case for your Home Folder, and the <code class="docutils literal notranslate"><span class="pre">lfs</span> <span class="pre">quota</span></code> command is specific to Lustre filesystems, which is the case for shared high-performance filesystems such as Scratch or Flash. The flags <code class="docutils literal notranslate"><span class="pre">-s</span></code> and <code class="docutils literal notranslate"><span class="pre">-h</span></code> displays sizes in a human-readable format.</em></p>

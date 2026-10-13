@@ -1,153 +1,92 @@
 (page:storage-filesystem)=
 # Storage and Filesystem
 
-Our HPC systems provide several storage options to support a wide range of research workflows. This section summarises the available storage types, their key features, and the best practices for managing quotas and data efficiently.
+Our HPC systems provide several storage options for different stages of a research workflow. Use your home directory for persistent files, shared scratch storage for datasets and job input/output, and temporary storage for data that only needs to exist while a job is running.
 
-## Summary of storage types on Aire
+Storage quotas and paths differ between systems. Scratch and temporary storage are **not backed up**, so keep an independent copy of any data you cannot afford to lose.
 
-The table below gives a high-level comparison of each storage option. Environment variables such as `$HOME` and `$SCRATCH` make navigation easier by pointing directly to the correct directories.
+## Storage at a glance
 
-| **Storage Type** | **Details** |
-| --- | --- |
-| **Home Folder** | **Path:** `/users/<username>`<br>**Environment variable:** `$HOME`<br>**Quota:** 65 GB, 1.5 million files<br>**Backup:** ✅ Yes<br>**Automatic deletion:** ❌ No<br>**Best for:** Persistent small files such as scripts, notes, and configuration files |
-| **Scratch on Lustre (disk-based)** | **Path:** `/mnt/scratch/<username>`<br>**Environment variable:** `$SCRATCH`<br>**Quota:** 1 TB, 1.5 million files<br>**Backup:** ❌ No<br>**Automatic deletion:** ❌ No<br>**Best for:** Large datasets and active project data |
-| **Flash on Lustre (NVMe-based)** | **Path:** `/mnt/flash/tmp/job.<JOB-ID>`<br>**Environment variable:** `$TMP_SHARED`<br>**Quota:** 1 TB, 1.5 million files<br>**Backup:** ❌ No<br>**Automatic deletion:** ✅ Yes<br>**Best for:** I/O-intensive tasks |
-| **Scratch on compute nodes** | **Path:** `/tmp/job.JOB-ID`<br>**Environment variable:** `$TMP_LOCAL`, `$TMPDIR`<br>**Quota:** None, subject to node storage availability<br>**Backup:** ❌ No<br>**Automatic deletion:** ✅ Yes<br>**Best for:** Single-node jobs needing fast, local storage |
+### Aire
 
-> **Key information**
->
-> - **Temporary data**: Files in `$TMP_SHARED`, `$TMP_LOCAL`, and `$TMPDIR` are automatically deleted when a job completes.
-> - **No backups**: Data in `$SCRATCH`, `$TMP_SHARED`, `$TMP_LOCAL`, and `$TMPDIR` is not backed up. Archive critical files to your Home Folder or external storage.
+| Storage type | Path | Environment variable | Quota or capacity | Backed up? | Automatically deleted? | Recommended use |
+| --- | --- | --- | --- | --- | --- | --- |
+| Home directory | `/users/<username>` | `$HOME` (also available as `~`) | 65 GB and 1.5 million files per user | Yes | No | Scripts, notes, documentation and configuration files |
+| Scratch on Lustre (disk-based) | `/mnt/scratch/<username>`; `/scratch` links to `/mnt/scratch` | `$SCRATCH` | 1 TB and 1.5 million files per user | No | No | Large datasets and active project data |
+| Flash on Lustre (NVMe-based) | `/mnt/flash/tmp/job.<JOB-ID>`; `/flash` links to `/mnt/flash` | `$TMP_SHARED` | 1 TB and 1.5 million files per job | No | Yes, at job completion | I/O-intensive work that benefits from high-performance shared storage |
+| Scratch on compute nodes | `/tmp` (job-specific directories may also be provided) | `$TMP_LOCAL`, `$TMPDIR` | No fixed quota; limited by available space on the node | No | Yes, at job completion | Fast, node-local temporary data for single-node jobs |
 
-## Detailed storage descriptions
+### Calder
 
-### Home Directory
+| Storage type | Path | Environment variable | Quota or capacity | Backed up? | Automatically deleted? | Recommended use |
+| --- | --- | --- | --- | --- | --- | --- |
+| Home directory | `/users/<username>` | `$HOME` (also available as `~`) | Shared with Aire | Yes | No | Scripts, notes, documentation and configuration files |
+| Scratch on Lustre (disk-based) | `/scratch-calder/users/` | Not currently defined | 1 TB and 1.5 million inodes per project | No | No | Large datasets and active project data |
+| Flash on Lustre (NVMe-based) | `/flash-calder/users/` | Not currently defined | 1 TB and 1.5 million inodes per project | No | Confirm the lifetime of files for your job before relying on them | I/O-intensive work that benefits from high-performance shared storage |
 
-- **Path and environment**
-  - Directory: `/users/<username>`
-  - Accessible via the `$HOME` variable and the `~` shortcut.
-- **Quota**: 65 GB and up to 1.5 million files.
-- **Backup**: Yes, with periodic backups. External archiving is recommended for critical data.
-- **Automatic deletion**: No.
-- **Usage**: Best for persistent, small files such as scripts, documentation, and configuration files. It is not intended for high I/O workloads.
+On Calder, quotas for both scratch filesystems are applied per Slurm project. The current limits are 1 TB and 1.5 million inodes per project on each filesystem. The `$SCRATCH` and `$TMP_SHARED` environment variables are not currently defined on Calder, so use the paths listed above. Aire 2.0 will also use project-based quotas; the current Aire system uses per-user quotas. For instructions on checking your quota and usage, see [Filesystem Quotas](page:filesystem-quotas). If you are unsure which project quota applies to your work, contact the Research Computing team.
 
-### Scratch on Lustre (disk-based)
+The home directory is shared between Aire and Calder, so files stored in `/users/<username>` are available on both systems. This does **not** mean that the scratch filesystems are shared: use the appropriate path for the system on which you are working.
 
-- **Path and environment**
-  - Directory: `/mnt/scratch/<username>`
-  - Accessible via the `$SCRATCH` variable.
-  - Symlink: `/scratch` → `/mnt/scratch`
-- **Quota**: 1 TB and up to 1.5 million files.
-- **Backup**: No.
-- **Automatic deletion**: No.
-- **Usage**: Designed for large datasets and active job data. Manual cleanup is essential to avoid exceeding quotas.
+## Total filesystem capacity
 
-### Flash on Lustre (NVMe-based)
+The figures below describe the overall capacity of each filesystem, not the quota available to an individual user or project.
 
-- **Path and environment**
-  - Directory: `/mnt/flash/tmp/job.<JOB-ID>`
-  - Accessible via the `$TMP_SHARED` variable.
-  - Symlink: `/flash` → `/mnt/flash`
-- **Quota**: 1 TB per job and up to 1.5 million files per job.
-- **Backup**: No.
-- **Automatic deletion**: Yes. Files are purged when the job completes.
-- **Usage**: Optimised for I/O-intensive tasks such as simulations. Ideal for workloads that require high performance during the job period.
+### Aire
 
-### Scratch on compute nodes
+| Filesystem | Total space | Total inodes |
+| --- | ---: | ---: |
+| Home directory | 106 TB | 2,269,138,752 |
+| Scratch on Lustre | 3.7 PB | 2,997,485,568 |
+| Flash on Lustre | 139 TB | 293,022,729 |
+| Scratch on compute nodes | 372 GB per node | 24,838,144 per node |
 
-- **Path and environment**
-  - Directory: `/tmp`
-  - Accessible via `$TMP_LOCAL` and `$TMPDIR`.
-- **Quota**: None, subject to node storage availability.
-- **Backup**: No.
-- **Automatic deletion**: Yes. Data is purged after job completion.
-- **Usage**: Best for fast, node-local storage during single-node jobs. Data is not shared between nodes and remains local to the node.
+### Calder
 
-:::{seealso}
-For detailed guidance on best practices for using storage and filesystems, see the [File and Data Management](../usage/file_management/start.md) section.
-:::
+| Filesystem | Total space |
+| --- | ---: |
+| Home directory | Shared with Aire | 
+| Scratch on Lustre (`/scratch-calder`) | Approximately 6.3 PB |
+| Flash on Lustre (`/flash-calder`) | Approximately 246 TB |
 
-### Storage Capacity and Limits on Aire
+When Aire 2.0 launches, Aire's scratch and flash paths are expected to change to `/scratch-aire` and `/flash-aire` respectively, distinguishing them from Calder's filesystems. Check the updated documentation when the Aire 2.0 upgrade is complete.
 
-As explained above, Aire provides several shared storage areas. Each has a finite capacity, and usage is managed collectively across all users:
+## Choosing and managing storage
 
-| Filesystem               | Total Space | Total Inode   |
-| -------------------------| ----------- | ------------- |
-| Home Directory           | 106 TB      | 2,269,138,752 |
-| Scratch on Lustre        | 3.7 PB      | 2,997,485,568 |
-| Flash on Lustre          | 139 TB      |   293,022,729 |
-| Scratch on compute nodes | 372 GB*     |    24,838,144*|
+- **Use your home directory for persistent, relatively small files.** It is backed up, but is not intended for high-I/O workloads.
+- **Use disk-based scratch for large datasets and active work.** It is not backed up and files are not automatically deleted, so remove data you no longer need and keep important data elsewhere.
+- **Use flash scratch for jobs with demanding I/O requirements.** It uses NVMe-based storage and is not backed up. Treat it as temporary job storage and check the relevant job environment and file lifetime before using it.
+- **Use compute-node scratch for node-local temporary files.** It is not shared between nodes, so a file written to one node's `/tmp` is not automatically available on another node.
+- **Do not treat any scratch area as your only copy of important data.** Copy important results to backed-up storage or an appropriate external storage location.
+- **Monitor both space and file counts.** A quota can be reached by using too much storage or by creating too many files.
 
-*\* Quantities available per node*
+For more guidance, see [File and Data Management](../usage/file_management/start.md), including [Best Practices](page:best-practices) and [Filesystem Quotas](page:filesystem-quotas).
 
-## Calder storage
+## When a filesystem becomes full
 
-(calder-storage)=
+Per-user or per-project quotas help manage individual usage, but they do not guarantee that the filesystem as a whole will have free space. Quotas may be oversubscribed because not every user or project uses its full allowance at the same time. As a result, a filesystem can become critically full even when some users are within their quotas.
 
-Calder provides its own Lustre parallel filesystem alongside Aire's, following the same pattern of persistent home storage plus disk-based and NVMe-based scratch space.
+As filesystem usage approaches capacity, performance and reliability can be affected. At high utilisation, users may experience slower jobs, failed writes or incomplete output. If a filesystem reaches 100% usage, write operations may fail with `No space left on device`, jobs may fail, and files being written may be truncated or corrupted.
 
-| **Storage Type** | **Details** |
-| --- | --- |
-| **Home Folder** | **Path:** `/users/<username>`<br>**Environment variable:** `$HOME`<br>**Shared with:** Aire, so your home directory is the same on both systems<br>**Backup:** ✅ Yes<br>**Best for:** Persistent small files such as scripts, notes, and configuration files |
-| **Scratch on Lustre (disk-based)** | **Path:** `/scratch-calder/<username>`<br>**Environment variable:** `$SCRATCH`<br>**Quota:** Project-based<br>**Backup:** ❌ No<br>**Best for:** Large datasets and active project data |
-| **Flash on Lustre (NVMe-based)** | **Path:** `/flash-calder/tmp/job.<JOB-ID>`<br>**Environment variable:** `$TMP_SHARED`<br>**Quota:** Project-based<br>**Automatic deletion:** ✅ Yes<br>**Best for:** I/O-intensive tasks |
+If a filesystem becomes critically full, Research IT may need to take urgent action to recover space and protect the service. This may include:
 
-Unlike Aire's fixed per-user quotas, Calder uses project-based quotas, with limits set per project by Research IT.
-
-### Storage Capacity and Limits on Calder
-
-| Filesystem                            | Total Space      |
-| --------------------------------------| -----------------|
-| Home Directory                        | Shared with Aire |
-| Scratch on Lustre (`/scratch-calder`) | ~6.3 PB          |
-| Flash on Lustre (`/flash-calder`)     | ~246 TB          |
-
-```{note}
-When the upgraded Aire system (Aire 2.0) launches, Aire's scratch and flash paths will be renamed to `/scratch-aire` and `/flash-aire` respectively, to distinguish them from Calder's storage.
-```
-
-## When a Filesystem Becomes Full
-
-While the quota system helps manage individual usage, it doesn’t guarantee that the overall filesystem won’t fill up. Quotas are intentionally **oversubscribed** to maximise usable space — most users don’t use their full quota all the time. However, this means it’s possible for the filesystem itself to become critically full.
-
-When a filesystem reaches **90% capacity**, performance starts to degrade significantly:
-
-- **Jobs may run slower** due to fragmentation or allocation delays.
-- **Write operations may fail**, leading to job crashes or incomplete output.
-- **Files may become corrupted** if writes are interrupted mid-operation.
-
-At **100% usage**, the consequences are severe:
-
-- Any process attempting to write data will receive a `No space left on device` error.
-- Files being written may be **truncated or corrupted** — data loss is likely.
-- Running jobs will fail.
-- New jobs cannot start reliably.
-
-At this stage, to protect system integrity and avoid cascading failures, we take the following immediate actions when a filesystem becomes critically full:
-
-1. **Job scheduling will be suspended.** No new jobs will start until space is recovered.
-2. **A site-wide email will be sent** to all users asking for urgent data cleanup.
-3. **Files will be proactively deleted without warning** to relieve the space shortage.
-4. **System reboot may be required** to restore stability.
+1. Temporarily suspending job scheduling so that additional jobs do not increase the pressure on the filesystem.
+2. Emailing users to request urgent data cleanup.
+3. Removing files to recover space, potentially without individual warning in an emergency.
+4. Rebooting or otherwise recovering affected services if necessary.
 
 :::{warning}
-Rebooting the system means **all users lose access** temporarily. This also carries a small risk of hardware issues or service delays during the recovery.
+Emergency recovery actions may temporarily interrupt access to the system. In exceptional circumstances, immediate action may be necessary to protect the wider service, and files may be removed without warning. Keep independent copies of important data and respond promptly to Research IT notices.
 :::
 
-## A Community Responsibility
+## A shared responsibility
 
-The HPC system is a shared resource. Although we monitor usage closely and take preemptive action when possible, **the majority of data is managed by users**, not system administrators.
+Storage is a shared resource, and users play an important role in keeping it reliable for everyone. Please:
 
-For this reason, we ask everyone to:
+- Review and clean up data regularly, especially on scratch filesystems.
+- Monitor your filesystem quotas and file counts.
+- Follow the [Best Practices](page:best-practices) for data management and storage usage.
+- Follow the [Rules and Regulations for using Aire](page:rules-regulations) where applicable.
+- Respond promptly to system alerts and emails from Research IT.
 
-- Regularly review and clean up your data.
-- Follow our [Best Practices](page:best-practices) for data management and storage usage.
-- Understand and respect your [Filesystem Quotas](page:filesystem-quotas), and monitor them regularly.
-- Comply with the [Rules and Regulations for using Aire](page:rules-regulations).
-- Respond promptly to any system alerts or emails — early action can prevent disruption for the entire community.
-
-By following these guidelines, you help protect not only your work, but also the reliability of the HPC platform as a whole.
-
-:::{warning}
-In emergency situations, we may take **immediate and irreversible actions without warning** to protect the system and ensure continued access for the wider community.
-:::
+Good storage management helps protect your research data and reduces the risk of disruption for the wider HPC community.
