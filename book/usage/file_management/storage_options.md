@@ -4,7 +4,7 @@ For comprehensive details about the storage systems available on Aire and Calder
 
 ## Using Scratch on Lustre (disk-based)
 
-Scratch on Lustre provides shared, high-capacity storage for large datasets and active project data. The path to this storage is set automatically in your job as the environment variable `$SCRATCH`.
+Scratch on Lustre provides shared, high-capacity storage for large datasets and active project data. The path to this storage is set automatically in your job as the environment variable `$SCRATCH` on Aire.
 
 ::::{tab-set}
 
@@ -16,7 +16,7 @@ On Aire, `$SCRATCH` typically points to `/mnt/scratch/<username>` (symlinked as 
 
 :::{tab-item} Calder
 
-On Calder, `$SCRATCH` points to `/scratch-calder/<username>`.
+On Calder, the path to the Scratch directory is  `/scratch-calder/users/<username>`.
 
 :::
 ::::
@@ -27,7 +27,7 @@ When the upgraded Aire system (Aire 2.0) launches, Aire's scratch path is expect
 
 ## Using Flash on Lustre (NVMe‑based)
 
-Flash on Lustre provides high-performance, NVMe-based temporary storage, ideal for I/O‑intensive workloads and jobs requiring rapid access to large datasets across multiple nodes. The path to this storage is set automatically in your job as the environment variable `$TMP_SHARED`.
+Flash on Lustre provides high-performance, NVMe-based temporary storage, ideal for I/O‑intensive workloads and jobs requiring rapid access to large datasets across multiple nodes. The path to this storage is set automatically in your job as the environment variable `$TMP_SHARED` on Aire.
 
 ::::{tab-set}
 
@@ -39,7 +39,7 @@ On Aire, `$TMP_SHARED` typically points to `/mnt/flash/tmp/job.<JOB-ID>`.
 
 :::{tab-item} Calder
 
-On Calder, `$TMP_SHARED` points to `/flash-calder/tmp/job.<JOB-ID>`.
+On Calder, the path to the NVMe-based Scratch directory is `/flash-calder/users/<username>`.
 
 :::
 ::::
