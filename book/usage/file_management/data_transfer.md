@@ -49,7 +49,7 @@ To make future transfers easier, you can bookmark the **Aire and Calder - Univer
 
 Centrally managed Globus collections for the Scratch filesystems on Aire and Calder are planned, but are not yet available. Until they are enabled, the collection above provides access to home directories only; it does not provide access to Scratch.
 
-If you need to transfer files directly to or from Scratch in the meantime, the existing Globus Connect Personal setup described in the Aire documentation is a temporary workaround. These setup instructions are not repeated here because the centrally managed collections are the intended approach once Scratch access is available.
+If you need to transfer files directly to or from Scratch in the meantime, the existing Globus Connect Personal setup described in the [Aire data transfer documentation](https://arcdocs.leeds.ac.uk/aire/usage/file_data_management/data_transfer.html) is a temporary workaround. These setup instructions are not repeated here because the centrally managed collections are the intended approach once Scratch access is available.
 
 ### Other Globus resources
 

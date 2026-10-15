@@ -1,13 +1,12 @@
-# Best Practices
-
 (page:best-practices)=
+# Best Practices
 
 Follow these guidelines to manage your data efficiently on Aire:
 
 1. **Select the appropriate storage for your task**:  
    - Use **Scratch on Lustre** for large, intermediate datasets.  
-   - For single-node, low-latency tasks, use **TMP_LOCAL**.  
-   - Choose **TMP_SHARED** or **Flash on Lustre** for I/O-intensive operations requiring temporary, high-speed storage.
+   - For single-node, low-latency tasks, use the local storage on the compute nodes.  
+   - Choose **Flash on Lustre** for I/O-intensive operations requiring temporary, high-speed storage.
 
 2. **Clean up temporary storage**:  
    - Regularly remove unnecessary files from **Scratch on Lustre** to free up space and maintain system performance.
@@ -21,8 +20,5 @@ Follow these guidelines to manage your data efficiently on Aire:
    - Combine numerous small files into archives (e.g., using `tar`) to enhance performance on Lustre systems.
 
 5. **Monitor your storage usage**:
-   - Check your quotas regularly to avoid interruptions:
-     - **Home quota**: `quota -s`
-     - **Scratch quota**: `lfs quota -h -u $USER /scratch`
-     - **Flash quota**: `lfs quota -h -u $USER /flash`
+   - Check your quotas regularly to avoid interruptions; for details, see the [Filesystem Quotas](page:filesystem-quotas) section.
    - Proactive storage management ensures smooth workflows and prevents disruptions during critical tasks.
