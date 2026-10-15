@@ -10,7 +10,7 @@ To get started, connect to the system you want to use and run the following comm
 2. **Load a module:** Run `module load <module-name>` to make the software available in your session. Replace `<module-name>` with the name of the module you want to use.
 3. **Check the software instructions:** Refer to the relevant software page for any additional setup or usage instructions.
 
-On Calder, the module system is hierarchical. You may need to load a CPU or GPU environment before the software you need becomes visible. To search the full module hierarchy, use `module spider <module-name>`. For more information, see [Modules and Applications](../system/module_system.md).
+On Calder, the module system is hierarchical. You may need to load a CPU or GPU environment before the software you need becomes visible. To search the full module hierarchy, use `module spider <module-name>`. For more information, see [Module System](../system/module_system.md).
 
 The module system differs between Aire and Calder, so module names and loading instructions may not be the same on both systems.
 
