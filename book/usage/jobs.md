@@ -244,7 +244,7 @@ The easiest way to think of a job array is as a job script with a built-in FOR l
 #!/bin/bash
 #SBATCH --job-name=aire_task_array
 #SBATCH --time=01:00:00
-#SBATCH --array=1-1000%10             # Run job array with indices 1 to 1000, allowing up to 10 jobs to run concurrently
+#SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently
 #SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)
 
 # Load any necessary modules
@@ -264,12 +264,12 @@ python -i $SCRATCH/input/input.$SLURM_ARRAY_TASK_ID -o $SCRATCH/results/out.$SLU
 #!/bin/bash
 #SBATCH --job-name=calder_task_array
 #SBATCH --time=01:00:00
-#SBATCH --array=1-1000%10             # Run job array with indices 1 to 1000, allowing up to 10 jobs to run concurrently
+#SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently
 #SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)
 
 # Load any necessary modules
 # e.g. using a conda environment
-module load calder/cpu miniforge
+module load calder/cpu miniforge3
 conda activate my_environment
 
 # Run the job, passing in the input and output filenames
