@@ -1,16 +1,19 @@
 # Python
-<!-- Brief introduction -->
-Python is ... [Official Documentation](link_to_official_documentation)
 
-:::{note}
-We highly recommend using the [Miniforge](./miniforge.md) module to manage your Python environments for better dependency management and environment isolation.
-:::
+Python is a popular programming language for scientific computing, data analysis, machine learning and research workflows.
 
-## The Python module on Aire
+## Available versions
 
-| Version |  Command                    |
-|---------|-----------------------------|
-| X.Y.Z   | `module load module/X.Y.Z`  |
-| A.B.C   | `module load module/A.B.C`  |
+The following system Python module is available on Calder:
 
-<!-- Optional: If there is any other useful advice, such as profiling and performance tuning, please include them here as a separate section. -->
+| Module | Version |
+| --- | --- |
+| `python/3.14.6` | 3.14.6 |
+
+## Recommended usage
+
+Although a system Python module is available, **we do not recommend using it directly for research workflows**. Instead, we recommend using Python within a Conda environment managed through the provided Miniforge module.
+
+Conda environments allow you to manage Python versions and package dependencies for individual projects, helping to keep research workflows reproducible and avoid dependency conflicts.
+
+For instructions on setting up and managing Conda environments, see [Managing Software Environments](page:environment-management).
