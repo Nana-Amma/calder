@@ -203,10 +203,16 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../software/start.html">Software on HPC</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../software/applications/start.html">Applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../software/applications/gromacs.html">GROMACS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../software/applications/openfoam.html">OpenFOAM</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../software/compilers/start.html">Compilers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../software/compilers/jdk.html">OpenJDK</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../software/interpreters/start.html">Interpreters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../software/interpreters/python.html">Python</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../software/interpreters/r.html">R</a></li>
 </ul>
 </details></li>
@@ -494,7 +500,7 @@
 <p class="admonition-title">Warning</p>
 <p>Job scripts written on Windows computers contain different invisible line ending characters that lead to job submission failures such as <code class="docutils literal notranslate"><span class="pre">/bin/bash^M:</span> <span class="pre">bad</span> <span class="pre">interpreter:</span> <span class="pre">No</span> <span class="pre">such</span> <span class="pre">file</span> <span class="pre">or</span> <span class="pre">directory</span></code>. You can use the command <code class="docutils literal notranslate"><span class="pre">dos2unix</span> <span class="pre">job_script.sh</span></code> on the login nodes to convert your script to the correct line endings.</p>
 </div>
-<p>A simple demonstration script is provided below. In this example named <code class="docutils literal notranslate"><span class="pre">job_script1.sh</span></code> we are requesting an hour of time, 1GB of memory, and a single CPU core to run an example binary file <code class="docutils literal notranslate"><span class="pre">example.bin</span></code> in the current directory.</p>
+<p>A simple demonstration script is provided below. In this example named <code class="docutils literal notranslate"><span class="pre">job_script.sh</span></code> we are requesting an hour of time, 1GB of memory, and a single CPU core to run an example binary file <code class="docutils literal notranslate"><span class="pre">example.bin</span></code> in the current directory.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="c1">#SBATCH --job-name=simple_job   # Job name</span>
 <span class="c1">#SBATCH --time=01:00:00         # Request runtime (hh:mm:ss)</span>
@@ -514,25 +520,25 @@ module<span class="w"> </span>load<span class="w"> </span>&lt;module_name&gt;
 <section id="using-the-queue">
 <h3>Using the queue<a class="headerlink" href="#using-the-queue" title="Link to this heading">#</a></h3>
 <p>To submit the job script, we use the command <code class="docutils literal notranslate"><span class="pre">sbatch</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>job_script1.sh
-Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">42</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>job_script.sh
+Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
-<p>This returns some text to confirm our job has been submitted and provides us with the job’s unique ID number (in this case 42). Arguments can also be submitted to the queue upon job submission, for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span>:00:00<span class="w"> </span>job_script1.sh
-Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">43</span>
+<p>This returns some text to confirm our job has been submitted and provides us with the job’s unique ID number (in this case 10). Arguments can also be submitted to the queue upon job submission, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span>:00:00<span class="w"> </span>job_script.sh
+Submitted<span class="w"> </span>batch<span class="w"> </span>job<span class="w"> </span><span class="m">11</span>
 </pre></div>
 </div>
 <p>Commands passed to Slurm in this way will override those in the job script.</p>
 <p>We can view the queue status using <code class="docutils literal notranslate"><span class="pre">squeue</span></code>. Use the option <code class="docutils literal notranslate"><span class="pre">--me</span></code> to filter for your own jobs:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>squeue<span class="w"> </span>--me
-JOBID<span class="w">   </span>PARTITION<span class="w">   </span>NAME<span class="w">        </span>USER<span class="w">     </span>ST<span class="w">  </span>TIME<span class="w"> </span>NODES<span class="w">  </span>NODELIST<span class="o">(</span>REASON<span class="o">)</span>
-<span class="m">42</span><span class="w">      </span>nodes<span class="w">       </span>simple_job<span class="w">  </span>exuser<span class="w">   </span>R<span class="w">   </span><span class="m">0</span>:25<span class="w"> </span><span class="m">10</span><span class="w">     </span>node<span class="o">[</span><span class="m">01</span>-10<span class="o">]</span>
-<span class="m">43</span><span class="w">      </span>nodes<span class="w">       </span>other_job<span class="w">   </span>exuser<span class="w">   </span>PD<span class="w">  </span><span class="m">0</span>:00<span class="w"> </span><span class="m">16</span><span class="w">     </span><span class="o">(</span>resources<span class="o">)</span>
+JOBID<span class="w">   </span>PARTITION<span class="w">   </span>NAME<span class="w">        </span>USER<span class="w">       </span>ST<span class="w">  </span>TIME<span class="w"> </span>NODES<span class="w">  </span>NODELIST<span class="o">(</span>REASON<span class="o">)</span>
+<span class="m">10</span><span class="w">      </span>nodes<span class="w">       </span>simple_job<span class="w">  </span>username<span class="w">   </span>R<span class="w">   </span><span class="m">0</span>:25<span class="w"> </span><span class="m">10</span><span class="w">     </span>node<span class="o">[</span><span class="m">01</span>-10<span class="o">]</span>
+<span class="m">11</span><span class="w">      </span>nodes<span class="w">       </span>other_job<span class="w">   </span>username<span class="w">   </span>PD<span class="w">  </span><span class="m">0</span>:00<span class="w"> </span><span class="m">16</span><span class="w">     </span><span class="o">(</span>resources<span class="o">)</span>
 </pre></div>
 </div>
 <p>Currently running jobs are identified with an <code class="docutils literal notranslate"><span class="pre">R</span></code>; jobs still in the queue show <code class="docutils literal notranslate"><span class="pre">PD</span></code>.</p>
-<p>Jobs can be cancelled using <code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">&lt;JOBID&gt;</span></code> (in our case, <code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">42</span></code>). Users are only able to cancel their own jobs.</p>
+<p>Jobs can be cancelled using <code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">&lt;JOBID&gt;</span></code> (in our case, <code class="docutils literal notranslate"><span class="pre">scancel</span> <span class="pre">10</span></code>). Users are only able to cancel their own jobs.</p>
 </section>
 <section id="serial-job-examples">
 <h3>Serial job examples<a class="headerlink" href="#serial-job-examples" title="Link to this heading">#</a></h3>
@@ -574,7 +580,7 @@ module<span class="w"> </span>load<span class="w"> </span>&lt;module_name&gt;
 <label class="sd-tab-label" for="sd-tab-item-0">
 Aire</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=threaded_job</span>
+<span class="c1">#SBATCH --job-name=aire_threaded_job</span>
 <span class="c1">#SBATCH --time=02:00:00</span>
 <span class="c1">#SBATCH --nodes=1</span>
 <span class="c1">#SBATCH --ntasks=1          # Number of tasks for OpenMP</span>
@@ -595,7 +601,7 @@ module<span class="w"> </span>load<span class="w"> </span>&lt;module_name&gt;
 <label class="sd-tab-label" for="sd-tab-item-1">
 Calder</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=threaded_job</span>
+<span class="c1">#SBATCH --job-name=calder_threaded_job</span>
 <span class="c1">#SBATCH --time=02:00:00</span>
 <span class="c1">#SBATCH --nodes=1</span>
 <span class="c1">#SBATCH --ntasks=1          # Number of tasks for OpenMP</span>
@@ -631,7 +637,7 @@ module<span class="w"> </span>load<span class="w"> </span>&lt;module_name&gt;
 <label class="sd-tab-label" for="sd-tab-item-2">
 Aire</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=MPI_job</span>
+<span class="c1">#SBATCH --job-name=aire_mpi_job</span>
 <span class="c1">#SBATCH --time=04:00:00</span>
 <span class="c1">#SBATCH --mem=256G              # Request 256GB memory per node</span>
 <span class="c1">#SBATCH --ntasks=256            # Number of MPI processes</span>
@@ -650,7 +656,7 @@ srun<span class="w"> </span>./example_aire.bin
 <label class="sd-tab-label" for="sd-tab-item-3">
 Calder</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=MPI_job</span>
+<span class="c1">#SBATCH --job-name=calder_mpi_job</span>
 <span class="c1">#SBATCH --time=04:00:00</span>
 <span class="c1">#SBATCH --mem=256G              # Request 256GB memory per node</span>
 <span class="c1">#SBATCH --ntasks=256            # Number of MPI processes</span>
@@ -658,7 +664,7 @@ Calder</label><div class="sd-tab-content docutils">
 <span class="c1">#SBATCH --ntasks-per-node=128   # Number of tasks per node</span>
 
 <span class="c1"># Load any necessary modules, e.g. MPI</span>
-module<span class="w"> </span>load<span class="w"> </span>openmpi
+module<span class="w"> </span>load<span class="w"> </span>calder/cpu<span class="w"> </span>openmpi
 
 <span class="c1"># Run the job using Slurm's native launcher</span>
 srun<span class="w"> </span>./example_calder.bin
@@ -688,10 +694,10 @@ srun<span class="w"> </span>./example_calder.bin
 <label class="sd-tab-label" for="sd-tab-item-4">
 Aire</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=task_array_job</span>
+<span class="c1">#SBATCH --job-name=aire_task_array</span>
 <span class="c1">#SBATCH --time=01:00:00</span>
 <span class="c1">#SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently</span>
-<span class="c1">#SBATCH --output=arrayjob_%A_%a.out  # Save output to a file named with job ID (%A) and array index (%a)</span>
+<span class="c1">#SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)</span>
 
 <span class="c1"># Load any necessary modules</span>
 <span class="c1"># e.g. using a conda environment</span>
@@ -707,14 +713,14 @@ python<span class="w"> </span>-i<span class="w"> </span><span class="nv">$SCRATC
 <label class="sd-tab-label" for="sd-tab-item-5">
 Calder</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1">#SBATCH --job-name=task_array_job</span>
+<span class="c1">#SBATCH --job-name=calder_task_array</span>
 <span class="c1">#SBATCH --time=01:00:00</span>
 <span class="c1">#SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently</span>
-<span class="c1">#SBATCH --output=arrayjob_%A_%a.out  # Save output to a file named with job ID (%A) and array index (%a)</span>
+<span class="c1">#SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)</span>
 
 <span class="c1"># Load any necessary modules</span>
 <span class="c1"># e.g. using a conda environment</span>
-module<span class="w"> </span>load<span class="w"> </span>miniforge
+module<span class="w"> </span>load<span class="w"> </span>calder/cpu<span class="w"> </span>miniforge3
 conda<span class="w"> </span>activate<span class="w"> </span>my_environment
 
 <span class="c1"># Run the job, passing in the input and output filenames</span>
@@ -759,7 +765,7 @@ Calder</label><div class="sd-tab-content docutils">
 <span class="c1">#SBATCH --time=01:00:00</span>
 <span class="c1">#SBATCH --mem=20G</span>
 
-module<span class="w"> </span>load<span class="w"> </span>openmpi
+module<span class="w"> </span>load<span class="w"> </span>calder/cpu<span class="w"> </span>openmpi
 <span class="nb">echo</span><span class="w"> </span><span class="s2">"Running MPI job with </span><span class="nv">$SLURM_NTASKS</span><span class="s2"> tasks"</span>
 srun<span class="w"> </span>./my_mpi_program
 </pre></div>
@@ -790,7 +796,7 @@ srun<span class="w"> </span>./my_mpi_program
 <span id="id1"></span><h2>GPU jobs<a class="headerlink" href="#gpu-jobs" title="Link to this heading">#</a></h2>
 <p>Both Aire and Calder include general-purpose GPU facilities for GPU-accelerated code. The GPU model, partition, and therefore the exact <code class="docutils literal notranslate"><span class="pre">--gres</span></code> value needed to request one, differs between the two systems:</p>
 <ul class="simple">
-<li><p><strong>Aire</strong>: GPU nodes are equipped with NVIDIA L40S GPUs, 3 per node (gres type <code class="docutils literal notranslate"><span class="pre">nvidia_l40</span></code>), requested via the <code class="docutils literal notranslate"><span class="pre">gpu</span></code> partition. Login nodes are equipped with entry-level NVIDIA A2 GPUs, which is useful for configuration purposes - note that login nodes should not be used to run jobs in order to skip the queue or work around restrictions for interactive jobs.</p></li>
+<li><p><strong>Aire 2.0</strong>: GPU nodes are equipped with NVIDIA L40S GPUs, 3 per node (gres type <code class="docutils literal notranslate"><span class="pre">nvidia_l40</span></code>), requested via the <code class="docutils literal notranslate"><span class="pre">gpu</span></code> partition. Login nodes are equipped with entry-level NVIDIA A2 GPUs, which is useful for configuration purposes - note that login nodes should not be used to run jobs in order to skip the queue or work around restrictions for interactive jobs.</p></li>
 <li><p><strong>Calder</strong>: GPU nodes are equipped with NVIDIA H200 GPUs, 8 per node (gres type <code class="docutils literal notranslate"><span class="pre">nvidia_h200</span></code>), requested via the <code class="docutils literal notranslate"><span class="pre">calder-gpu-hopper</span></code> partition. GPU nodes are named <code class="docutils literal notranslate"><span class="pre">calder-gpu-h200-001</span></code> onwards.</p></li>
 </ul>
 <section id="requesting-use-of-gpu-nodes">
@@ -891,7 +897,7 @@ Calder</label><div class="sd-tab-content docutils">
 
 <span class="c1"># Load any necessary modules, e.g. Miniforge</span>
 <span class="c1"># Activate conda environment</span>
-module<span class="w"> </span>load<span class="w"> </span>miniforge
+module<span class="w"> </span>load<span class="w"> </span>calder/cpu<span class="w"> </span>miniforge
 conda<span class="w"> </span>activate<span class="w"> </span>my_ML_environment
 
 <span class="c1"># Run the job</span>
@@ -965,11 +971,11 @@ cp<span class="w"> </span>-r<span class="w"> </span><span class="nv">$TMP_SHARED
 <h2>Job dependencies<a class="headerlink" href="#job-dependencies" title="Link to this heading">#</a></h2>
 <p>It is possible to submit a job which will only start once another job has reached a particular state. This is useful when multiple stages of a workflow must run in sequence. Dependency conditions include <code class="docutils literal notranslate"><span class="pre">afterok</span></code>, which starts the dependent job only if the initial job completes successfully, and <code class="docutils literal notranslate"><span class="pre">afterany</span></code>, which starts the dependent job once the initial job finishes, regardless of outcome (including failure or timeout).</p>
 <p>Submitting an initial job using <code class="docutils literal notranslate"><span class="pre">sbatch</span> <span class="pre">job1.sh</span></code> returns a job ID number <code class="docutils literal notranslate"><span class="pre">&lt;JOBID&gt;</span></code>. A second job submitted with a dependency, <code class="docutils literal notranslate"><span class="pre">job2.sh</span></code>, will remain in the queue until the dependency condition is satisfied.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:&lt;JOBID&gt;<span class="w"> </span>job2.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:&lt;JOBID&gt;<span class="w"> </span>job2.sh
 </pre></div>
 </div>
 <p>A dependency on more than one job can be specified by separating job IDs with a colon. The dependent job will start only when all specified jobs satisfy the condition.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:&lt;JOBID_1&gt;:&lt;JOBID_2&gt;<span class="w"> </span>job3.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:&lt;JOBID_1&gt;:&lt;JOBID_2&gt;<span class="w"> </span>job3.sh
 </pre></div>
 </div>
 <p>A dependent job can also be submitted from within a job script. In this case, <code class="docutils literal notranslate"><span class="pre">$SLURM_JOB_ID</span></code> is set automatically to the job ID of the running job.</p>

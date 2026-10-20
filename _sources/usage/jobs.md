@@ -26,7 +26,7 @@ The basic approach to create a new job submission file on HPC would be `nano job
 Job scripts written on Windows computers contain different invisible line ending characters that lead to job submission failures such as `/bin/bash^M: bad interpreter: No such file or directory`. You can use the command `dos2unix job_script.sh` on the login nodes to convert your script to the correct line endings.
 :::
 
-A simple demonstration script is provided below. In this example named `job_script1.sh` we are requesting an hour of time, 1GB of memory, and a single CPU core to run an example binary file `example.bin` in the current directory.
+A simple demonstration script is provided below. In this example named `job_script.sh` we are requesting an hour of time, 1GB of memory, and a single CPU core to run an example binary file `example.bin` in the current directory.
 
 ```bash
 #!/bin/bash
@@ -50,15 +50,15 @@ The job script specified above includes a number of lines that request some amou
 To submit the job script, we use the command `sbatch`:
 
 ```bash
-$ sbatch job_script1.sh
-Submitted batch job 42
+$ sbatch job_script.sh
+Submitted batch job 10
 ```
 
-This returns some text to confirm our job has been submitted and provides us with the job's unique ID number (in this case 42). Arguments can also be submitted to the queue upon job submission, for example:
+This returns some text to confirm our job has been submitted and provides us with the job's unique ID number (in this case 10). Arguments can also be submitted to the queue upon job submission, for example:
 
 ```bash
-$ sbatch -t 1:00:00 job_script1.sh
-Submitted batch job 43
+$ sbatch -t 1:00:00 job_script.sh
+Submitted batch job 11
 ```
 
 Commands passed to Slurm in this way will override those in the job script.
@@ -67,14 +67,14 @@ We can view the queue status using `squeue`. Use the option `--me` to filter for
 
 ```bash
 $ squeue --me
-JOBID   PARTITION   NAME        USER     ST  TIME NODES  NODELIST(REASON)
-42      nodes       simple_job  exuser   R   0:25 10     node[01-10]
-43      nodes       other_job   exuser   PD  0:00 16     (resources)
+JOBID   PARTITION   NAME        USER       ST  TIME NODES  NODELIST(REASON)
+10      nodes       simple_job  username   R   0:25 10     node[01-10]
+11      nodes       other_job   username   PD  0:00 16     (resources)
 ```
 
 Currently running jobs are identified with an `R`; jobs still in the queue show `PD`.
 
-Jobs can be cancelled using `scancel <JOBID>` (in our case, `scancel 42`). Users are only able to cancel their own jobs.
+Jobs can be cancelled using `scancel <JOBID>` (in our case, `scancel 10`). Users are only able to cancel their own jobs.
 
 ### Serial job examples
 
@@ -119,7 +119,7 @@ Here we request 16 cores within a single node for 2 hours. Note that jobs will n
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=threaded_job
+#SBATCH --job-name=aire_threaded_job
 #SBATCH --time=02:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1          # Number of tasks for OpenMP
@@ -141,7 +141,7 @@ export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=threaded_job
+#SBATCH --job-name=calder_threaded_job
 #SBATCH --time=02:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1          # Number of tasks for OpenMP
@@ -181,7 +181,7 @@ These are jobs that run across multiple nodes using a Message Passing Interface 
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=MPI_job
+#SBATCH --job-name=aire_mpi_job
 #SBATCH --time=04:00:00
 #SBATCH --mem=256G              # Request 256GB memory per node
 #SBATCH --ntasks=256            # Number of MPI processes
@@ -201,7 +201,7 @@ srun ./example_aire.bin
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=MPI_job
+#SBATCH --job-name=calder_mpi_job
 #SBATCH --time=04:00:00
 #SBATCH --mem=256G              # Request 256GB memory per node
 #SBATCH --ntasks=256            # Number of MPI processes
@@ -209,7 +209,7 @@ srun ./example_aire.bin
 #SBATCH --ntasks-per-node=128   # Number of tasks per node
 
 # Load any necessary modules, e.g. MPI
-module load openmpi
+module load calder/cpu openmpi
 
 # Run the job using Slurm's native launcher
 srun ./example_calder.bin
@@ -242,10 +242,10 @@ The easiest way to think of a job array is as a job script with a built-in FOR l
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=task_array_job
+#SBATCH --job-name=aire_task_array
 #SBATCH --time=01:00:00
 #SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently
-#SBATCH --output=arrayjob_%A_%a.out  # Save output to a file named with job ID (%A) and array index (%a)
+#SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)
 
 # Load any necessary modules
 # e.g. using a conda environment
@@ -262,14 +262,14 @@ python -i $SCRATCH/input/input.$SLURM_ARRAY_TASK_ID -o $SCRATCH/results/out.$SLU
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=task_array_job
+#SBATCH --job-name=calder_task_array
 #SBATCH --time=01:00:00
 #SBATCH --array=1-100%10             # Run job array with indices 1 to 100, allowing up to 10 jobs to run concurrently
-#SBATCH --output=arrayjob_%A_%a.out  # Save output to a file named with job ID (%A) and array index (%a)
+#SBATCH --output=arrayjob_%A_%a.out   # Save output to a file named with job ID (%A) and array index (%a)
 
 # Load any necessary modules
 # e.g. using a conda environment
-module load miniforge
+module load calder/cpu miniforge3
 conda activate my_environment
 
 # Run the job, passing in the input and output filenames
@@ -320,7 +320,7 @@ srun ./my_mpi_program
 #SBATCH --time=01:00:00
 #SBATCH --mem=20G
 
-module load openmpi
+module load calder/cpu openmpi
 echo "Running MPI job with $SLURM_NTASKS tasks"
 srun ./my_mpi_program
 ```
@@ -355,7 +355,7 @@ If you have made changes to your environment on the login nodes these will not b
 
 Both Aire and Calder include general-purpose GPU facilities for GPU-accelerated code. The GPU model, partition, and therefore the exact `--gres` value needed to request one, differs between the two systems:
 
-- **Aire**: GPU nodes are equipped with NVIDIA L40S GPUs, 3 per node (gres type `nvidia_l40`), requested via the `gpu` partition. Login nodes are equipped with entry-level NVIDIA A2 GPUs, which is useful for configuration purposes - note that login nodes should not be used to run jobs in order to skip the queue or work around restrictions for interactive jobs.
+- **Aire 2.0**: GPU nodes are equipped with NVIDIA L40S GPUs, 3 per node (gres type `nvidia_l40`), requested via the `gpu` partition. Login nodes are equipped with entry-level NVIDIA A2 GPUs, which is useful for configuration purposes - note that login nodes should not be used to run jobs in order to skip the queue or work around restrictions for interactive jobs.
 - **Calder**: GPU nodes are equipped with NVIDIA H200 GPUs, 8 per node (gres type `nvidia_h200`), requested via the `calder-gpu-hopper` partition. GPU nodes are named `calder-gpu-h200-001` onwards.
 
 ### Requesting use of GPU nodes
@@ -469,7 +469,7 @@ python my_ML_script.py
 
 # Load any necessary modules, e.g. Miniforge
 # Activate conda environment
-module load miniforge
+module load calder/cpu miniforge
 conda activate my_ML_environment
 
 # Run the job
@@ -551,13 +551,13 @@ It is possible to submit a job which will only start once another job has reache
 Submitting an initial job using `sbatch job1.sh` returns a job ID number `<JOBID>`. A second job submitted with a dependency, `job2.sh`, will remain in the queue until the dependency condition is satisfied.
 
 ```bash
-$ sbatch --dependency=afterok:<JOBID> job2.sh
+sbatch --dependency=afterok:<JOBID> job2.sh
 ```
 
 A dependency on more than one job can be specified by separating job IDs with a colon. The dependent job will start only when all specified jobs satisfy the condition.
 
 ```bash
-$ sbatch --dependency=afterok:<JOBID_1>:<JOBID_2> job3.sh
+sbatch --dependency=afterok:<JOBID_1>:<JOBID_2> job3.sh
 ```
 
 A dependent job can also be submitted from within a job script. In this case, `$SLURM_JOB_ID` is set automatically to the job ID of the running job.

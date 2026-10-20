@@ -25,7 +25,7 @@ If you cannot find software or a module on Calder that is available on Aire, **p
 Browse the documentation by category:
 
 - [Applications](./applications/start) - Software applications for various tasks
-<!-- - [Compilers](./compilers/start) - Compilers for a range of programming languages -->
+- [Compilers](./compilers/start) - Compilers for a range of programming languages
 - [Interpreters](./interpreters/start) - Interpreters for running scripts and programs
 <!-- - [Libraries](./libraries/start) - Libraries for enhancing functionality and performance -->
 - [Tools](./tools/start) - Useful system utilities and tools
